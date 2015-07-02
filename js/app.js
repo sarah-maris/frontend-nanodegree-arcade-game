@@ -16,6 +16,7 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 	
 	
+	
 }
 
 // Draw the enemy on the screen, required method for game
