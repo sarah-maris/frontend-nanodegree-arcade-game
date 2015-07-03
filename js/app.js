@@ -19,7 +19,6 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-	console.log( this.x);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
@@ -42,7 +41,9 @@ Player.prototype.render = function() {
 }
 
 Player.prototype.handleInput = function() {
-    
+    		this.y += -83;
+		console.log('up');
+	
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
