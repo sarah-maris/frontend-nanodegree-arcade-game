@@ -53,7 +53,7 @@ for (i = 0; i < 3; i++ ) {
 	allEnemies[ i ] = new Enemy(); 
 	allEnemies[ i ].y = i * 83 + 60;  //enemies line up on tiles
 	allEnemies[ i ].x =  Math.random() * (505 - 64); //enemies start at random positions on the x-axis
-	allEnemies[ i ].speed = 15; 
+	allEnemies[ i ].speed = Math.random() * 200 + 10; 
 }
 
 var player = new Player();
