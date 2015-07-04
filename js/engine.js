@@ -56,6 +56,9 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
+		 if ( checkWin()) {
+			 console.log ("win!");
+		 } else 
         win.requestAnimationFrame(main);
     };
 
@@ -81,6 +84,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+		checkWin();
     }
 
     /* This is called by the update function  and loops through all of the

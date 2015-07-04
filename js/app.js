@@ -47,7 +47,7 @@ Player.prototype.handleInput = function(key) {
 			if (this.y > -12) {
 				this.y -= 83;
 			} else {
-				this.score();
+				
 			}
 			break;
 
@@ -98,7 +98,7 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-Player.prototype.reset = function() {
+Player.prototype.reset = function() {	
 	this.x = 200;
 	this.y = 403;
 }
@@ -109,6 +109,14 @@ Player.prototype.score = function() {
 	this.reset();
 }
 
+
+// Check to see if player has reached water
+var checkWin = function() {
+	if (player.y === -12 ) {
+		return true;
+	} else return false;
+}
+
 var checkCollisions = function() {
 	for(i = 0; i < numEnemies; i++ ) { 
 		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
@@ -116,7 +124,7 @@ var checkCollisions = function() {
 		}
 	}
 }
-//TODO: add consequences for collision (game over or restart -- add resetPlayer function)
+//TODO: add game restart with delay and score when reach water
 //TODO: add gems and scoring
 //TODO: add key for slow down
 //TODO: add start and game over screens
