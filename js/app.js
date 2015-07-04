@@ -33,7 +33,9 @@ var Player = function() {
 }
 
 Player.prototype.update = function(dt) {
-	
+	if (collision) {
+		this.sprite = 'images/char-cat-girl.png';
+	}
 }
 
 Player.prototype.render = function() {
@@ -72,7 +74,9 @@ Player.prototype.handleInput = function(key) {
 
 // instantiate enemies 
 var allEnemies = [];
-for (i = 0; i < 3; i++ ) {
+var numEnemies = 3;
+
+for (i = 0; i < numEnemies; i++ ) {
 	allEnemies[ i ] = new Enemy(); 
 	allEnemies[ i ].y = i * 83 + 60;  //enemies line up on tiles
 	allEnemies[ i ].x =  Math.random() * (505 - 64); //enemies start at random positions on the x-axis
@@ -82,7 +86,7 @@ for (i = 0; i < 3; i++ ) {
 // instantiate player
 var player = new Player();
 
-// listen for keypresses
+// listen for key presses
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -93,3 +97,13 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+var collision = false;
+
+var checkCollisions = function() {
+	for(i = 0; i < numEnemies; i++ ) { 
+		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
+			collision = true;
+		}
+	}
+}
