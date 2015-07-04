@@ -33,9 +33,7 @@ var Player = function() {
 }
 
 Player.prototype.update = function(dt) {
-	if (collision) {
-		this.sprite = 'images/char-cat-girl.png';
-	}
+	
 }
 
 Player.prototype.render = function() {
@@ -48,6 +46,8 @@ Player.prototype.handleInput = function(key) {
 		case "up":
 			if (this.y > -12) {
 				this.y -= 83;
+			} else {
+				this.score();
 			}
 			break;
 
@@ -98,12 +98,25 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-var collision = false;
+Player.prototype.reset = function() {
+	this.x = 200;
+	this.y = 403;
+}
+
+Player.prototype.score = function() {
+	console.log("WIN!");
+	alert ("you win!");
+	this.reset();
+}
 
 var checkCollisions = function() {
 	for(i = 0; i < numEnemies; i++ ) { 
 		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
-			collision = true;
+			player.reset();
 		}
 	}
 }
+//TODO: add consequences for collision (game over or restart -- add resetPlayer function)
+//TODO: add gems and scoring
+//TODO: add key for slow down
+//TODO: add start and game over screens
