@@ -1,4 +1,5 @@
-console.log (currentGameState);
+var	gameState = "title";
+
 // Enemies our player must avoid
 var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
@@ -77,14 +78,18 @@ var player = new Player();
 
 // listen for key presses
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
-
-    player.handleInput(allowedKeys[e.keyCode]);
+	if (gameState === "title") {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		gameState = "game";
+	} else {		
+		var allowedKeys = {
+				37: 'left',
+				38: 'up',
+				39: 'right',
+				40: 'down'
+			};
+		player.handleInput(allowedKeys[e.keyCode]);
+	}
 });
 
 Player.prototype.reset = function() {	

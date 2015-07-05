@@ -14,6 +14,7 @@
  * a little simpler to work with.
  */
 
+
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -24,7 +25,6 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-		currentGameState = "title",  //added CHANGE TO TITLE WHEN TITLE IS SET UP
         lastTime;
 
     canvas.width = 505;
@@ -84,9 +84,9 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-		switch (currentGameState) {
+		switch (gameState) {
             case "win":
-                // Is there anything you need to do?
+                //TODO: add stuff here
                 break;
 
             case "game":		
@@ -118,7 +118,7 @@ var Engine = (function(global) {
      * they are just drawing the entire screen over and over.
      */
     function render() {
-		switch (currentGameState) {
+		switch (gameState) {
             case "title":
 				var titleImage = 'images/title-screen.png';
                 ctx.drawImage(Resources.get(titleImage), 0, 0);
@@ -192,5 +192,5 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
 	global.canvas = canvas;
-	global.currentGameState = currentGameState;
+ 
 })(this);
