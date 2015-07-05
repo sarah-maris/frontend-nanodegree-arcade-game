@@ -1,3 +1,4 @@
+console.log (currentGameState);
 // Enemies our player must avoid
 var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
