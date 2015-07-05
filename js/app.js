@@ -116,4 +116,5 @@ var checkCollisions = function() {
 //TODO: add game restart with delay and score when reach water
 //TODO: add gems and scoring
 //TODO: add key for slow down
-//TODO: add start and game over screens
+//TODO: add game over screen
+//TODO: add animation to start screen

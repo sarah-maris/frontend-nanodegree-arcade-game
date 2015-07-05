@@ -24,7 +24,7 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-		currentGameState = "InGame",  //added CHANGE TO TITLE WHEN TITLE IS SET UP
+		currentGameState = "title",  //added CHANGE TO TITLE WHEN TITLE IS SET UP
         lastTime;
 
     canvas.width = 505;
@@ -85,11 +85,11 @@ var Engine = (function(global) {
      */
     function update(dt) {
 		switch (currentGameState) {
-            case "Win":
+            case "win":
                 // Is there anything you need to do?
                 break;
 
-            case "InGame":		
+            case "game":		
 				updateEntities(dt);
 				checkCollisions();
 				checkWin();
@@ -119,11 +119,12 @@ var Engine = (function(global) {
      */
     function render() {
 		switch (currentGameState) {
-            case "Title":
-                // Draw the title
+            case "title":
+				var titleImage = 'images/title-screen.png';
+                ctx.drawImage(Resources.get(titleImage), 0, 0);
                 break;
 
-            case "InGame":		
+            case "game":		
 				var rowImages = [
 						'images/water-block.png',   // Top row is water
 						'images/stone-block.png',   // Row 1 of 3 of stone
@@ -180,7 +181,8 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-		'images/char-cat-girl.png' //added images
+		'images/char-cat-girl.png', //added images
+		'images/title-screen.png'
     ]);
     Resources.onReady(init);
 
