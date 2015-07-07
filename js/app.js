@@ -107,6 +107,9 @@ Player.prototype.score = function() {
 // Check to see if player has reached water
 var checkWin = function() {
 	if (player.y === -12 ) {
+		ctx.textAlign = "center";
+        ctx.font = "bold 50px Georgia";
+        ctx.fillText("YOU MADE IT!", canvas.width/2, 350 );
 		return true;
 	} else return false;
 }
