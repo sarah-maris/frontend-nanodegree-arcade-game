@@ -137,20 +137,19 @@ var Engine = (function(global) {
 				for (col = 0; col < numCols; col++) {
 						ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
 					}
-				//ctx.fillText("Beat the", canvas.width/2, 50 );
 				ctx.font = "48px Georgia";
 				ctx.textAlign = "left";
 				ctx.fillStyle = "#963009";
 				ctx.fillText("Beat the", 20, 150 );	
 				ctx.textAlign = "center";
-				ctx.font = "225px Georgia";
+				ctx.font = "bold 200px Georgia";
 				ctx.fillText("Bugs", canvas.width/2, 350 );
+				ctx.font = "italic 25px Arial";
+				ctx.fillText("Press any key to Start", canvas.width/2, 425 );
 				ctx.drawImage(Resources.get('images/enemy-bug.png'), 300, 50);
                 break;
 
             case "game":		
-
-
 				for (row = 0; row < numRows; row++) {
 					for (col = 0; col < numCols; col++) {
 						ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
@@ -159,6 +158,25 @@ var Engine = (function(global) {
 
 				renderEntities();
 				break;
+				
+			case "gameOver":
+				rowNum = 5;
+				for (col = 0; col < numCols; col++) {
+						ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
+					}
+				//ctx.fillText("Beat the", canvas.width/2, 50 );
+				ctx.fillStyle = "#963009";
+				ctx.textAlign = "center";
+				ctx.font = "bold 150px Georgia";
+				ctx.fillText("GAME", canvas.width/2, 175 );
+				ctx.fillText("OVER", canvas.width/2, 300 );
+
+				
+				ctx.font = "italic 25px Arial";
+				ctx.fillText("Thank you for playing!", canvas.width/2, 350 );	
+				ctx.drawImage(Resources.get('images/enemy-bug.png'), 300, 50);
+                break;
+			
 		}
     }
 
