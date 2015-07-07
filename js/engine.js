@@ -118,24 +118,38 @@ var Engine = (function(global) {
      * they are just drawing the entire screen over and over.
      */
     function render() {
+		
+		var rowImages = [
+			'images/water-block.png',   // Top row is water
+			'images/stone-block.png',   // Row 1 of 3 of stone
+			'images/stone-block.png',   // Row 2 of 3 of stone
+			'images/stone-block.png',   // Row 3 of 3 of stone
+			'images/grass-block.png',   // Row 1 of 2 of grass
+			'images/grass-block.png'    // Row 2 of 2 of grass
+			],
+		numRows = 6,
+		numCols = 5,
+		row, col, rowNum;
+		
 		switch (gameState) {
             case "title":
-				var titleImage = 'images/title-screen.png';
-                ctx.drawImage(Resources.get(titleImage), 0, 0);
+				rowNum = 5;
+				for (col = 0; col < numCols; col++) {
+						ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
+					}
+				//ctx.fillText("Beat the", canvas.width/2, 50 );
+				ctx.font = "48px Georgia";
+				ctx.textAlign = "left";
+				ctx.fillStyle = "#963009";
+				ctx.fillText("Beat the", 20, 150 );	
+				ctx.textAlign = "center";
+				ctx.font = "225px Georgia";
+				ctx.fillText("Bugs", canvas.width/2, 350 );
+				ctx.drawImage(Resources.get('images/enemy-bug.png'), 300, 50);
                 break;
 
             case "game":		
-				var rowImages = [
-						'images/water-block.png',   // Top row is water
-						'images/stone-block.png',   // Row 1 of 3 of stone
-						'images/stone-block.png',   // Row 2 of 3 of stone
-						'images/stone-block.png',   // Row 3 of 3 of stone
-						'images/grass-block.png',   // Row 1 of 2 of grass
-						'images/grass-block.png'    // Row 2 of 2 of grass
-					],
-					numRows = 6,
-					numCols = 5,
-					row, col;
+
 
 				for (row = 0; row < numRows; row++) {
 					for (col = 0; col < numCols; col++) {

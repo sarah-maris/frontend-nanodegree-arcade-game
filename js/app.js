@@ -118,6 +118,7 @@ var checkCollisions = function() {
 		}
 	}
 }
+//TODO: rotate bug image on home screen
 //TODO: add game restart with delay and score when reach water
 //TODO: add gems and scoring
 //TODO: add key for slow down
