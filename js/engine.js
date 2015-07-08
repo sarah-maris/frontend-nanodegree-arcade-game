@@ -157,7 +157,8 @@ var Engine = (function(global) {
 				ctx.restore();
                 break;
 
-            case "game":		
+            case "game":
+				//Draw field
 				for (row = 0; row < numRows; row++) {
 					for (col = 0; col < numCols; col++) {
 						ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
@@ -168,21 +169,23 @@ var Engine = (function(global) {
 				break;
 				
 			case "gameOver":
+				//Row of grass at bottom
 				rowNum = 5;
 				for (col = 0; col < numCols; col++) {
 						ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
 					}
-				//ctx.fillText("Beat the", canvas.width/2, 50 );
+				//Game Over text
 				ctx.fillStyle = "#963009";
 				ctx.textAlign = "center";
 				ctx.font = "bold 150px Georgia";
 				ctx.fillText("GAME", canvas.width/2, 175 );
 				ctx.fillText("OVER", canvas.width/2, 300 );
-
-				
+				//Thank you text				
 				ctx.font = "italic 25px Arial";
 				ctx.fillText("Thank you for playing!", canvas.width/2, 350 );	
-				ctx.drawImage(Resources.get('images/enemy-bug.png'), 300, 50);
+				//Princess snd boy	
+				ctx.drawImage(Resources.get('images/char-princess-girl.png'),25, 300);
+				ctx.drawImage(Resources.get('images/char-boy.png'),380, 300);
                 break;
 			
 		}

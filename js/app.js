@@ -109,7 +109,7 @@ var checkWin = function() {
 	if (player.y === -12 ) {
 		ctx.textAlign = "center";
         ctx.font = "bold 50px Georgia";
-        ctx.fillText("YOU MADE IT!", canvas.width/2, 350 );
+        ctx.fillText("YOU MADE IT!", canvas.width/2, 450 );
 		return true;
 	} else return false;
 }
