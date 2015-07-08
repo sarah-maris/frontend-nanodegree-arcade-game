@@ -133,10 +133,12 @@ var Engine = (function(global) {
 		
 		switch (gameState) {
             case "title":
+				//Row of grass at bottom
 				rowNum = 5;
 				for (col = 0; col < numCols; col++) {
 						ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
 					}
+				//Title
 				ctx.font = "48px Georgia";
 				ctx.textAlign = "left";
 				ctx.fillStyle = "#963009";
@@ -145,8 +147,14 @@ var Engine = (function(global) {
 				ctx.font = "bold 200px Georgia";
 				ctx.fillText("Bugs", canvas.width/2, 350 );
 				ctx.font = "italic 25px Arial";
+				//Start text
 				ctx.fillText("Press any key to Start", canvas.width/2, 425 );
-				ctx.drawImage(Resources.get('images/enemy-bug.png'), 300, 50);
+				//Bug
+				ctx.save();
+				ctx.scale(2,2);
+				ctx.rotate(6);				
+				ctx.drawImage(Resources.get('images/enemy-bug.png'),100, 10);
+				ctx.restore();
                 break;
 
             case "game":		
