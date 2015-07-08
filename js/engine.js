@@ -14,7 +14,6 @@
  * a little simpler to work with.
  */
 
-
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -41,6 +40,7 @@ var Engine = (function(global) {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
+ 
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
@@ -72,6 +72,7 @@ var Engine = (function(global) {
         reset();
         lastTime = Date.now();
         main();
+
     }
 
     /* This function is called by main (our game loop) and itself calls all
@@ -85,8 +86,8 @@ var Engine = (function(global) {
      */
     function update(dt) {
 		switch (gameState) {
-            case "win":
-                //TODO: add stuff here
+            case "title":
+				updateEntities(dt);
                 break;
 
             case "game":		
@@ -105,10 +106,18 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
-        });
-        player.update();
+        switch (gameState) {
+            case "title":
+				titleBug.updateTitle(dt);
+                break;
+
+            case "game":	
+				allEnemies.forEach(function(enemy) {
+					enemy.update(dt);
+				});
+				player.update();
+				break;
+		}
     }
 
     /* This function initially draws the "game level", it will then call
@@ -132,7 +141,11 @@ var Engine = (function(global) {
 		row, col, rowNum;
 		
 		switch (gameState) {
-            case "title":
+            case "title":				
+				//white field
+				ctx.rect(0,0,canvas.height, canvas.width);
+				ctx.fillStyle = "#fff";
+				ctx.fill();
 				//Row of grass at bottom
 				rowNum = 5;
 				for (col = 0; col < numCols; col++) {
@@ -142,19 +155,20 @@ var Engine = (function(global) {
 				ctx.font = "48px Georgia";
 				ctx.textAlign = "left";
 				ctx.fillStyle = "#963009";
-				ctx.fillText("Beat the", 20, 150 );	
+				ctx.fillText("Beat the", 20, 200 );	
 				ctx.textAlign = "center";
 				ctx.font = "bold 200px Georgia";
 				ctx.fillText("Bugs", canvas.width/2, 350 );
 				ctx.font = "italic 25px Arial";
-				//Start text
+
 				ctx.fillText("Press any key to Start", canvas.width/2, 425 );
-				//Bug
+				/*/Draw bug 
+				var bug = Resources.get('images/enemy-bug.png');
 				ctx.save();
 				ctx.scale(2,2);
 				ctx.rotate(6);				
-				ctx.drawImage(Resources.get('images/enemy-bug.png'),100, 10);
-				ctx.restore();
+				ctx.drawImage(bug,100, 10);
+				ctx.restore();*/
                 break;
 
             case "game":
@@ -165,7 +179,7 @@ var Engine = (function(global) {
 					}
 				}
 
-				renderEntities();
+
 				break;
 				
 			case "gameOver":
@@ -189,6 +203,7 @@ var Engine = (function(global) {
                 break;
 			
 		}
+					renderEntities();
     }
 
     /* This function is called by the render function and is called on each game
@@ -196,14 +211,23 @@ var Engine = (function(global) {
      * on your enemy and player entities within app.js
      */
     function renderEntities() {
+		
+		switch (gameState) {
+            case "title":
+				titleBug.renderTitle();
+				break;
+		
+		     case "game":
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
-        });
+				allEnemies.forEach(function(enemy) {
+					enemy.render();
+				});
 
-        player.render();
+				player.render();
+				break;
+		}
     }
 
     /* This function does nothing but it could have been a good place to
