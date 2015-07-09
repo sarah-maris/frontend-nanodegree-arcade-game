@@ -58,8 +58,11 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-		 if ( checkWin()) {
-			 console.log ("win!");
+		 if ( gameState === "win") {
+			// update(dt);
+			 render();
+console.log ("win!");
+console.log( "game state is: ", gameState);
 		 } else 
         win.requestAnimationFrame(main);
     };
@@ -90,6 +93,7 @@ var Engine = (function(global) {
 				updateEntities(dt);
                 break;
 
+
             case "game":		
 				updateEntities(dt);
 				checkCollisions();
@@ -119,15 +123,9 @@ var Engine = (function(global) {
 				break;
 		}
     }
+	 		
 
-    /* This function initially draws the "game level", it will then call
-     * the renderEntities function. Remember, this function is called every
-     * game tick (or loop of the game engine) because that's how games work -
-     * they are flipbooks creating the illusion of animation but in reality
-     * they are just drawing the entire screen over and over.
-     */
-    function render() {
-		
+    function render() {	
 		var rowImages = [
 			'images/water-block.png',   // Top row is water
 			'images/stone-block.png',   // Row 1 of 3 of stone
@@ -138,19 +136,34 @@ var Engine = (function(global) {
 			],
 		numRows = 6,
 		numCols = 5,
-		row, col, rowNum;
+		row, col;
+		 
+		function drawField() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			for (row = 0; row < numRows; row++) {
+				for (col = 0; col < numCols; col++) {
+					ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+				}
+			}
+		}
 		
+		function drawGrass() {
+			//create white field
+			ctx.rect(0,0,canvas.height, canvas.width);
+			ctx.fillStyle = "#fff";
+			ctx.fill();
+			
+			//draw row of grass at bottom
+			var rowNum = 5;
+			for (col = 0; col < numCols; col++) {
+				ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
+			}
+		}
+	
 		switch (gameState) {
             case "title":				
-				//white field
-				ctx.rect(0,0,canvas.height, canvas.width);
-				ctx.fillStyle = "#fff";
-				ctx.fill();
-				//Row of grass at bottom
-				rowNum = 5;
-				for (col = 0; col < numCols; col++) {
-						ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
-					}
+
+				drawGrass();
 				//Title
 				ctx.font = "48px Georgia";
 				ctx.textAlign = "left";
@@ -160,34 +173,26 @@ var Engine = (function(global) {
 				ctx.font = "bold 200px Georgia";
 				ctx.fillText("Bugs", canvas.width/2, 350 );
 				ctx.font = "italic 25px Arial";
-
+                //Press key to start
 				ctx.fillText("Press any key to Start", canvas.width/2, 425 );
-				/*/Draw bug 
-				var bug = Resources.get('images/enemy-bug.png');
-				ctx.save();
-				ctx.scale(2,2);
-				ctx.rotate(6);				
-				ctx.drawImage(bug,100, 10);
-				ctx.restore();*/
                 break;
 
             case "game":
-				//Draw field
-				for (row = 0; row < numRows; row++) {
-					for (col = 0; col < numCols; col++) {
-						ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
-					}
-				}
-
-
+				drawField();
 				break;
 				
+			case "win":
+				drawField();	
+				
+				//Add  "Win!" message
+				ctx.textAlign = "center";
+				ctx.font = "bold 50px Georgia";
+				ctx.fillText("YOU MADE IT!", canvas.width/2, 450 );
+				break;
+						
 			case "gameOver":
-				//Row of grass at bottom
-				rowNum = 5;
-				for (col = 0; col < numCols; col++) {
-						ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
-					}
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				drawGrass();
 				//Game Over text
 				ctx.fillStyle = "#963009";
 				ctx.textAlign = "center";
@@ -218,6 +223,17 @@ var Engine = (function(global) {
 				break;
 		
 		     case "game":
+        /* Loop through all of the objects within the allEnemies array and call
+         * the render function you have defined.
+         */
+				allEnemies.forEach(function(enemy) {
+					enemy.render();
+				});
+
+				player.render();
+				break;
+				
+		     case "win":
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */

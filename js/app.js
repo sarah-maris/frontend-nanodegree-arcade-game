@@ -1,8 +1,9 @@
-// Enemies our player must avoid
+// Enemies
 var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
 }
 
+//TITLE BUGS
 // Update the title bug's position
 Enemy.prototype.updateTitle = function(dt) {
 	//straight path for first third
@@ -31,6 +32,7 @@ Enemy.prototype.renderTitle = function() {
 	}		
 }
 
+// GAME ENEMIES
 // Update the enemy's position
 Enemy.prototype.update = function(dt) {
 	this.x = (this.x % canvas.width ) + this.speed * dt;  	
@@ -41,8 +43,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-
-// Add player class
+// PLAYERS
 var Player = function() {
     this.sprite = 'images/char-boy.png';
 	this.x = 200;
@@ -50,7 +51,7 @@ var Player = function() {
 }
 
 Player.prototype.update = function(dt) {
-	
+	//NOT USED
 }
 
 Player.prototype.render = function() {
@@ -89,6 +90,36 @@ Player.prototype.handleInput = function(key) {
 	}
 }
 
+// send player back to starting position
+Player.prototype.reset = function() {	
+	this.x = 200;
+	this.y = 403;
+}
+
+// update player score
+Player.prototype.score = function() {
+	console.log("WIN!");
+	alert ("you win!");
+	this.reset();
+}
+
+// Check to see if player has reached water
+var checkWin = function() {
+	if (player.y === -12 ) {
+		gameState = "win";
+		return true;
+	} else return false;
+}
+
+var checkCollisions = function() {
+	for(i = 0; i < numEnemies; i++ ) { 
+		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
+			player.reset();
+		}
+	}
+}
+
+
 //initialize game state
 var	gameState = "title";
 
@@ -126,37 +157,11 @@ document.addEventListener('keyup', function(e) {
 			};
 		player.handleInput(allowedKeys[e.keyCode]);
 	}
+console.log( "game state is: ", gameState, "player.y is: ", player.y);
 });
 
-Player.prototype.reset = function() {	
-	this.x = 200;
-	this.y = 403;
-}
-
-Player.prototype.score = function() {
-	console.log("WIN!");
-	alert ("you win!");
-	this.reset();
-}
 
 
-// Check to see if player has reached water
-var checkWin = function() {
-	if (player.y === -12 ) {
-		ctx.textAlign = "center";
-        ctx.font = "bold 50px Georgia";
-        ctx.fillText("YOU MADE IT!", canvas.width/2, 450 );
-		return true;
-	} else return false;
-}
-
-var checkCollisions = function() {
-	for(i = 0; i < numEnemies; i++ ) { 
-		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
-			player.reset();
-		}
-	}
-}
 
 //TODO: add game restart with delay and score when reach water
 //TODO: add gems and scoring
