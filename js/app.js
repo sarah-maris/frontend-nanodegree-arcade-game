@@ -145,17 +145,24 @@ var player = new Player();
 
 // listen for key presses
 document.addEventListener('keyup', function(e) {
-	if (gameState === "title") {
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		gameState = "game";
-	} else {		
-		var allowedKeys = {
-				37: 'left',
-				38: 'up',
-				39: 'right',
-				40: 'down'
-			};
-		player.handleInput(allowedKeys[e.keyCode]);
+        switch (gameState) {
+            case "title":
+				gameState = "game";
+				break;
+			
+			case "game":	
+				var allowedKeys = {
+						37: 'left',
+						38: 'up',
+						39: 'right',
+						40: 'down'
+					};
+				player.handleInput(allowedKeys[e.keyCode]);
+				break;
+			
+			case "win":
+				gameState = "gameOver";
+				break;
 	}
 console.log( "game state is: ", gameState, "player.y is: ", player.y);
 });
