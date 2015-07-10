@@ -169,7 +169,6 @@ document.addEventListener('keyup', function(e) {
 				gameReset = allowedKeys[e.keyCode];
 				break;
 	}
-console.log( "game state is: ", gameState, "player.y is: ", player.y);
 });
 
 
