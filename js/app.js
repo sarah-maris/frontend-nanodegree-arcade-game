@@ -58,7 +58,11 @@ Player.prototype.update = function(dt) {
 }
 
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+	//Add default sprite if no sprite is chosen
+	if ( this.sprite ) { 
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+	} else 
+    ctx.drawImage(Resources.get('images/char-boy.png'), this.x, this.y);
 }
 
 Player.prototype.handleInput = function(key) {
@@ -162,7 +166,6 @@ for (i = 0; i < playerOptions.length; i++ ) {
 
 // instantiate player
 var player = new Player();
-player.sprite = 'images/char-boy.png';
 
 // listen for key presses
 document.addEventListener('keyup', function(e) {
@@ -191,19 +194,28 @@ document.addEventListener('keyup', function(e) {
 	}
 });
 
-document.addEventListener("click", mousePosition);
+document.addEventListener("click", choosePlayer);
 
-function mousePosition() {
-	var x = event.x;
-	var y = event.y; 
-
-	x -= canvas.offsetLeft;
-	y -= canvas.offsetTop;
-
-	console.log("x:" + x + " y:" + y);
+function choosePlayer() {
+	var mouseX = event.x - canvas.offsetLeft;
+	var mouseY = event.y -canvas.offsetTop; 
+	var spriteWidth = 101;
+	var spriteTop = 450;
+	
+	if ( mouseY <= canvas.height && mouseY >= spriteTop ) {
+		
+		for (i = 0; i < playerOptions.length; i++ ) {
+			
+			var spriteLeft = spriteWidth * i;
+			var spriteRight = spriteWidth * ( i + 1 );
+			
+			if ( mouseX >= spriteLeft && mouseX < spriteRight ) {
+				player.sprite = allPlayers[ i ].sprite;
+			}
+		}
+	} 
 }
 
 //TODO: Remove event listeners when not needed (by game state)	
-//TODO:  Finish player section function based on http://www.ibm.com/developerworks/library/wa-games/
 //TODO: add gems and scoring
 //TODO: add key for slow down
