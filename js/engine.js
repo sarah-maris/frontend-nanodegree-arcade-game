@@ -58,9 +58,6 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-		 if ( gameState === "win") {
-			reset();
-		 }  
         win.requestAnimationFrame(main);
     };
 
@@ -95,6 +92,10 @@ var Engine = (function(global) {
 				updateEntities(dt);
 				checkCollisions();
 				checkWin();
+				break;
+				
+			case "win":
+				reset();
 				break;
 		}
     }
