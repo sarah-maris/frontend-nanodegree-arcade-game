@@ -110,6 +110,7 @@ Player.prototype.score = function() {
 	this.reset();
 }
 
+//GAME FUNCTIONS
 // Check to see if player has reached water
 var checkWin = function() {
 	if (player.y === -12 ) {
@@ -126,47 +127,7 @@ var checkCollisions = function() {
 	}
 }
 
-//initialize game state
-var	gameState = "title";
-var gameReset = "null";
-
-// instantiate bug for title screen animation
-var titleBug = new Enemy()
-titleBug.x = 0;
-titleBug.y = canvas.height - 200;
-titleBug.speed = 100;
-
-// instantiate enemies 
-var allEnemies = [];
-var numEnemies = 3;
-
-for (i = 0; i < numEnemies; i++ ) {
-	allEnemies[ i ] = new Enemy(); 
-	allEnemies[ i ].y = i * 83 + 60;  //enemies line up on tiles
-	allEnemies[ i ].x =  Math.random() * (canvas.width - 64); //enemies start at random positions on the x-axis
-	allEnemies[ i ].speed = Math.random() * 200 + 10; 
-}
-
-// instantiate player options
-var allPlayers = [];
-var playerOptions = [
-		'images/char-boy.png', 
-		'images/char-cat-girl.png', 
-		'images/char-horn-girl.png', 
-		'images/char-princess-girl.png', 
-		'images/char-pink-girl.png'
-];
-
-for (i = 0; i < playerOptions.length; i++ ) {
-	allPlayers[ i ] = new Player(); 
-	allPlayers[ i ].y = 403;  //player options line up on bottom tiles
-	allPlayers[ i ].x = i * canvas.width / 5;
-	allPlayers[ i ].sprite = playerOptions[ i ];
-}
-
-// instantiate player
-var player = new Player();
-
+//EVENT LISTENERS
 // listen for key presses
 document.addEventListener('keyup', function(e) {
         switch (gameState) {
@@ -215,6 +176,52 @@ function choosePlayer() {
 		}
 	} 
 }
+
+
+
+
+//INITIALIZE GAME
+//initialize game state
+var	gameState = "title";
+var gameReset = "null";
+
+// instantiate bug for title screen animation
+var titleBug = new Enemy()
+titleBug.x = 0;
+titleBug.y = canvas.height - 200;
+titleBug.speed = 100;
+
+// instantiate enemies 
+var allEnemies = [];
+var numEnemies = 3;
+
+for (i = 0; i < numEnemies; i++ ) {
+	allEnemies[ i ] = new Enemy(); 
+	allEnemies[ i ].y = i * 83 + 60;  //enemies line up on tiles
+	allEnemies[ i ].x =  Math.random() * (canvas.width - 64); //enemies start at random positions on the x-axis
+	allEnemies[ i ].speed = Math.random() * 200 + 10; 
+}
+
+// instantiate player options
+var allPlayers = [];
+var playerOptions = [
+		'images/char-boy.png', 
+		'images/char-cat-girl.png', 
+		'images/char-horn-girl.png', 
+		'images/char-princess-girl.png', 
+		'images/char-pink-girl.png'
+];
+
+for (i = 0; i < playerOptions.length; i++ ) {
+	allPlayers[ i ] = new Player(); 
+	allPlayers[ i ].y = 403;  //player options line up on bottom tiles
+	allPlayers[ i ].x = i * canvas.width / 5;
+	allPlayers[ i ].sprite = playerOptions[ i ];
+}
+
+// instantiate player
+var player = new Player();
+
 
 //TODO: Remove event listeners when not needed (by game state)	
 //TODO: add gems and scoring
