@@ -117,9 +117,9 @@ var Gem = function(){
 }
 
 var gemOptions = [
-	'images/gem-blue.png',
-	'images/gem-green.png',
-	'images/gem-orange.png'
+	'images/gem-blue-small.png',
+	'images/gem-green-small.png',
+	'images/gem-orange-small.png'
 ]
 
 // Draw the gems the screen
