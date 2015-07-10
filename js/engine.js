@@ -196,10 +196,7 @@ var Engine = (function(global) {
      */
     function renderEntities() {
 		if  (gameState === "title" ) {
-            	//titleBug.renderTitle();
-				allPlayers.forEach(function(player) {
-				player.render();
-			});
+            	titleBug.renderTitle();
 		} else if (gameState != "gameOver" ){
 			allEnemies.forEach(function(enemy) {
 				enemy.render();

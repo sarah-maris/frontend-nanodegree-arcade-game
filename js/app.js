@@ -29,6 +29,9 @@ Enemy.prototype.renderTitle = function() {
 		ctx.rotate(6);				
 		ctx.drawImage(Resources.get(this.sprite),100, 10);
 		ctx.restore();
+		allPlayers.forEach(function(player) {
+			player.render();
+		});
 	}		
 }
 
@@ -77,13 +80,13 @@ Player.prototype.handleInput = function(key) {
 			
 		case "left":
 			if (this.x > -2) {
-				this.x -= 101;
+				this.x -= canvas.width / 5;
 			}
 			break;
 
 		case "right":
 			if (this.x < 400) {
-				this.x += 101;
+				this.x += canvas.width / 5;
 			}
 			break;	
 		
@@ -119,7 +122,6 @@ var checkCollisions = function() {
 	}
 }
 
-
 //initialize game state
 var	gameState = "title";
 var gameReset = "null";
@@ -153,8 +155,8 @@ var playerOptions = [
 
 for (i = 0; i < playerOptions.length; i++ ) {
 	allPlayers[ i ] = new Player(); 
-	allPlayers[ i ].y = 406;  //player options line up on bottom tiles
-	allPlayers[ i ].x = i * 101;
+	allPlayers[ i ].y = 403;  //player options line up on bottom tiles
+	allPlayers[ i ].x = i * canvas.width / 5;
 	allPlayers[ i ].sprite = playerOptions[ i ];
 }
 
@@ -189,10 +191,19 @@ document.addEventListener('keyup', function(e) {
 	}
 });
 
+document.addEventListener("click", mousePosition);
 
+function mousePosition() {
+	var x = event.x;
+	var y = event.y; 
 
+	x -= canvas.offsetLeft;
+	y -= canvas.offsetTop;
 
-//TODO: add game restart with delay and score when reach water
+	console.log("x:" + x + " y:" + y);
+}
+
+//TODO: Remove event listners when not needed (by game state)	
+//TODO:  Finish player section function based on http://www.ibm.com/developerworks/library/wa-games/
 //TODO: add gems and scoring
 //TODO: add key for slow down
-//TODO: add game over screen
