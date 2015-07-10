@@ -122,6 +122,7 @@ var checkCollisions = function() {
 
 //initialize game state
 var	gameState = "title";
+var gameReset = "null";
 
 // instantiate bug for title screen animation
 var titleBug = new Enemy()
@@ -161,7 +162,11 @@ document.addEventListener('keyup', function(e) {
 				break;
 			
 			case "win":
-				gameState = "gameOver";
+				var allowedKeys = {
+						81: 'quit',
+						80: 'play',
+				};
+				gameReset = allowedKeys[e.keyCode];
 				break;
 	}
 console.log( "game state is: ", gameState, "player.y is: ", player.y);

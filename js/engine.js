@@ -59,11 +59,8 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
 		 if ( gameState === "win") {
-			// update(dt);
-			 render();
-console.log ("win!");
-console.log( "game state is: ", gameState);
-		 } else 
+			reset();
+		 }  
         win.requestAnimationFrame(main);
     };
 
@@ -72,7 +69,7 @@ console.log( "game state is: ", gameState);
      * game loop.
      */
     function init() {
-        reset();
+//removed reset() from init
         lastTime = Date.now();
         main();
 
@@ -208,7 +205,7 @@ console.log( "game state is: ", gameState);
                 break;
 			
 		}
-					renderEntities();
+		renderEntities();
     }
 
     /* This function is called by the render function and is called on each game
@@ -223,9 +220,6 @@ console.log( "game state is: ", gameState);
 				break;
 		
 		     case "game":
-        /* Loop through all of the objects within the allEnemies array and call
-         * the render function you have defined.
-         */
 				allEnemies.forEach(function(enemy) {
 					enemy.render();
 				});
@@ -234,9 +228,6 @@ console.log( "game state is: ", gameState);
 				break;
 				
 		     case "win":
-        /* Loop through all of the objects within the allEnemies array and call
-         * the render function you have defined.
-         */
 				allEnemies.forEach(function(enemy) {
 					enemy.render();
 				});
@@ -251,7 +242,15 @@ console.log( "game state is: ", gameState);
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        if (gameReset === "play") {
+			player.reset()
+			gameState = "game";
+			gameReset = null;
+		} else  if (gameReset === "quit") {
+			gameState = "gameOver";
+			render();
+			win.cancelAnimationFrame(main);
+		}
     }
 
     /* Go ahead and load all of the images we know we're going to need to
