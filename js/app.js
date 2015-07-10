@@ -48,7 +48,6 @@ Enemy.prototype.render = function() {
 
 // PLAYER CLASS
 var Player = function() {
-    //this.sprite = 'images/char-boy.png';
 	this.x = 200;
 	this.y = 403;
 }
@@ -108,6 +107,24 @@ Player.prototype.score = function() {
 	console.log("WIN!");
 	alert ("you win!");
 	this.reset();
+}
+
+//GEM Class 
+var Gem = function(){
+	this.sprite = gemOptions[Math.floor(Math.random() * gemOptions.length)];
+	this.y = ( Math.floor(Math.random() * 3 )* 83  ) + 60;  // line up on tiles
+	this.x =  Math.random() * (canvas.width - 64); // start at random positions on the x-axis
+}
+
+var gemOptions = [
+	'images/gem-blue.png',
+	'images/gem-green.png',
+	'images/gem-orange.png'
+]
+
+// Draw the gems the screen
+Gem.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 //GAME FUNCTIONS
@@ -177,9 +194,6 @@ function choosePlayer() {
 	} 
 }
 
-
-
-
 //INITIALIZE GAME
 //initialize game state
 var	gameState = "title";
@@ -221,6 +235,12 @@ for (i = 0; i < playerOptions.length; i++ ) {
 
 // instantiate player
 var player = new Player();
+
+//instantiate gems
+var allGems = [];
+for ( i = 0; i < 10; i++) {
+	allGems[ i ] = new Gem();
+}
 
 
 //TODO: Remove event listeners when not needed (by game state)	
