@@ -45,7 +45,7 @@ Enemy.prototype.render = function() {
 
 // PLAYERS
 var Player = function() {
-    this.sprite = 'images/char-boy.png';
+    //this.sprite = 'images/char-boy.png';
 	this.x = 200;
 	this.y = 403;
 }
@@ -141,8 +141,26 @@ for (i = 0; i < numEnemies; i++ ) {
 	allEnemies[ i ].speed = Math.random() * 200 + 10; 
 }
 
+// instantiate player options
+var allPlayers = [];
+var playerOptions = [
+		'images/char-boy.png', 
+		'images/char-cat-girl.png', 
+		'images/char-horn-girl.png', 
+		'images/char-princess-girl.png', 
+		'images/char-pink-girl.png'
+];
+
+for (i = 0; i < playerOptions.length; i++ ) {
+	allPlayers[ i ] = new Player(); 
+	allPlayers[ i ].y = 406;  //player options line up on bottom tiles
+	allPlayers[ i ].x = i * 101;
+	allPlayers[ i ].sprite = playerOptions[ i ];
+}
+
 // instantiate player
 var player = new Player();
+player.sprite = 'images/char-boy.png';
 
 // listen for key presses
 document.addEventListener('keyup', function(e) {

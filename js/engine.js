@@ -196,7 +196,10 @@ var Engine = (function(global) {
      */
     function renderEntities() {
 		if  (gameState === "title" ) {
-            	titleBug.renderTitle();
+            	//titleBug.renderTitle();
+				allPlayers.forEach(function(player) {
+				player.render();
+			});
 		} else if (gameState != "gameOver" ){
 			allEnemies.forEach(function(enemy) {
 				enemy.render();
@@ -231,12 +234,10 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-		'images/char-cat-girl.png', //added images
 		'images/char-cat-girl.png', 
 		'images/char-horn-girl.png', 
 		'images/char-princess-girl.png', 
-		'images/char-pink-girl.png', 		
-		'images/title-screen.png'
+		'images/char-pink-girl.png'
     ]);
     Resources.onReady(init);
 
