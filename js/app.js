@@ -1,4 +1,4 @@
-// Enemies
+// ENEMY CLASS
 var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
 }
@@ -46,7 +46,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-// PLAYERS
+// PLAYER CLASS
 var Player = function() {
     //this.sprite = 'images/char-boy.png';
 	this.x = 200;
@@ -203,7 +203,7 @@ function mousePosition() {
 	console.log("x:" + x + " y:" + y);
 }
 
-//TODO: Remove event listners when not needed (by game state)	
+//TODO: Remove event listeners when not needed (by game state)	
 //TODO:  Finish player section function based on http://www.ibm.com/developerworks/library/wa-games/
 //TODO: add gems and scoring
 //TODO: add key for slow down

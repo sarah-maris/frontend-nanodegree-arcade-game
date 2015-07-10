@@ -147,7 +147,7 @@ var Engine = (function(global) {
 				ctx.font = "48px Georgia";
 				ctx.textAlign = "left";
 				ctx.fillStyle = "#963009";
-				ctx.fillText("Beat the", 20, 200 );	
+				ctx.fillText("Oh no!", 6, 200 );	
 				ctx.textAlign = "center";
 				ctx.font = "bold 200px Georgia";
 				ctx.fillText("Bugs", canvas.width/2, 350 );
