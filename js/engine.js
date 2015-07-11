@@ -139,13 +139,6 @@ var Engine = (function(global) {
 			}
 		}
 		
-		function drawScore() {
-			ctx.textAlign = "left";
-			ctx.font = "bold 24px Arial";
-			ctx.fillText( "Score: ", 0, canvas.height );
-			ctx.fillText( player.score, canvas.width / 5, canvas.height );
-		}
-		
 		function drawLives() {
 			ctx.textAlign = "right";
 			ctx.fillText( "Lives: ", canvas.width * 4 / 5, canvas.height );
@@ -156,22 +149,28 @@ var Engine = (function(global) {
 			}
 			ctx.restore();
 		}
+
+		function drawScore() {
+			ctx.textAlign = "left";
+			ctx.font = "bold 24px Arial";
+			ctx.fillText( "Score: ", 0, canvas.height );
+			ctx.fillText( player.score, canvas.width / 5, canvas.height );
+		}
+		
+		function drawTitle() {
+			ctx.font = "48px Georgia";
+			ctx.textAlign = "left";
+			ctx.fillStyle = "#963009";
+			ctx.fillText("Oh No!", 6, 200 );	
+			ctx.textAlign = "center";
+			ctx.font = "bold 200px Georgia";
+			ctx.fillText("Bugs", canvas.width/2, 350 );
+		}
 		
 		switch (gameState) {
             case "title":				
-
 				drawGrass();
-				//Title
-				ctx.font = "48px Georgia";
-				ctx.textAlign = "left";
-				ctx.fillStyle = "#963009";
-				ctx.fillText("Oh No!", 6, 200 );	
-				ctx.textAlign = "center";
-				ctx.font = "bold 200px Georgia";
-				ctx.fillText("Bugs", canvas.width/2, 350 );
-				ctx.font = "italic 25px Arial";
-                //Press key to start
-				ctx.fillText("Press any key to Start", canvas.width/2, 425 );
+				drawTitle()
                 break;
 
             case "game":
@@ -262,7 +261,10 @@ var Engine = (function(global) {
 		'images/char-pink-girl.png',
 		'images/gem-blue-small.png',
 		'images/gem-green-small.png',
-		'images/gem-orange-small.png'
+		'images/gem-orange-small.png',
+		'images/continue.png',
+		'images/restart.png',
+		'images/quit.png'
     ]);
     Resources.onReady(init);
 

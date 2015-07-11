@@ -32,6 +32,8 @@ Enemy.prototype.renderTitle = function() {
 		allPlayers.forEach(function(player) {
 			player.render();
 		});
+		ctx.font = "italic 25px Arial"
+		ctx.fillText("Click on a character to begin the game", canvas.width/2, 425 );
 	}		
 }
 
