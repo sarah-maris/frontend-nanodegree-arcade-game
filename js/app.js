@@ -209,7 +209,9 @@ function choosePlayer() {
 				player.sprite = allPlayers[ i ].sprite;
 			}
 		}
-	} 
+	}
+	gameState = "game";	
+	document.removeEventListener("click", choosePlayer);
 }
 
 //INITIALIZE GAME
