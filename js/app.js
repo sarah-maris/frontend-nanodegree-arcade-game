@@ -103,8 +103,14 @@ Player.prototype.reset = function() {
 }
 
 // update player score
-Player.prototype.AddScore = function() {
-	console.log("WIN!");
+Player.prototype.addScore = function(scoreType) {
+	if (scoreType === "gem") {
+		this.score += 200;
+console.log(this.score);  //REMOVE WHEN SCORE FUNCTION IS FINAL
+	} else if (scoreType === "safe") {
+		this.score += 1000;
+console.log(this.score); //REMOVE WHEN SCORE FUNCTION IS FINAL
+	}
 }
 
 //GEM Class 
@@ -123,7 +129,7 @@ var gemOptions = [
 Gem.prototype.reset = function() {	
 	this.sprite = gemOptions[Math.floor(Math.random() * gemOptions.length)];
 	this.y = ( Math.floor(Math.random() * 3 )* 83  ) + 60;  // line up on tiles
-	this.x =   Math.floor(Math.random() * 5 ) * canvas.width / 5; // start at random positions on the x-axis    * canvas.width / 5
+	this.x = Math.floor(Math.random() * 5 ) * canvas.width / 5; // start at random positions on the x-axis    * canvas.width / 5
 }
 
 // Draw the gems the screen
@@ -134,10 +140,10 @@ Gem.prototype.render = function() {
 //GAME FUNCTIONS
 // Check to see if player has reached water
 var checkWin = function() {
-	if (player.y === -12 ) {
+	if (player.y === -12 && gameState === "game") {
 		gameState = "win";
-		return true;
-	} else return false;
+		player.addScore("safe");
+	}
 }
 
 var checkCollisions = function() {
@@ -149,16 +155,10 @@ var checkCollisions = function() {
 	for(i = 0; i < allGems.length; i++ ) { 
 		if (  Math.abs( allGems[ i ].x  -  player.x) < 50 && Math.abs( allGems[ i ].y  - player.y) < 50  ) {
 			allGems[ i ].reset();
-			console.log("GEM FOUND");
-			player.AddScore(gem);
+console.log("GEM FOUND"); //REMOVE WHEN SCORE FUNCTION IS FINAL
+			player.addScore("gem");
 		}
 	}
-	if (  Math.abs( gem.x  -  player.x) < 50 && Math.abs( gem.y  - player.y) < 50  ) {
-			//gem.reset();
-			console.log("GEM FOUND");
-			player.AddScore(gem);
-		}
-	
 }
 
 //EVENT LISTENERS
@@ -193,7 +193,7 @@ document.addEventListener("click", choosePlayer);
 
 function choosePlayer() {
 	var mouseX = event.x - canvas.offsetLeft;
-	var mouseY = event.y -canvas.offsetTop; 
+	var mouseY = event.y - canvas.offsetTop; 
 	var spriteWidth = 101;
 	var spriteTop = 450;
 	
@@ -255,11 +255,11 @@ var player = new Player();
 
 //instantiate gems
 var allGems = [];
-for ( i = 0; i < 3; i++) {
+var numGems = 3; //set max number of gems on screen
+for ( i = 0; i < numGems; i++) {
 	allGems[ i ] = new Gem();
 }
 
 var gem = new Gem();
 //TODO: Remove event listeners when not needed (by game state)	
-//TODO: add gems and scoring
-//TODO: add key for slow down
+//TODO: display score on screen

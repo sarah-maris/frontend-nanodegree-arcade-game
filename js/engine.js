@@ -147,7 +147,7 @@ var Engine = (function(global) {
 				ctx.font = "48px Georgia";
 				ctx.textAlign = "left";
 				ctx.fillStyle = "#963009";
-				ctx.fillText("Oh no!", 6, 200 );	
+				ctx.fillText("Oh No!", 6, 200 );	
 				ctx.textAlign = "center";
 				ctx.font = "bold 200px Georgia";
 				ctx.fillText("Bugs", canvas.width/2, 350 );
@@ -214,8 +214,8 @@ var Engine = (function(global) {
      */
     function reset() {
         if (gameReset === "play") {
-			player.reset()
 			gameState = "game";
+			player.reset()
 			gameReset = null;
 		} else  if (gameReset === "quit") {
 			gameState = "gameOver";
