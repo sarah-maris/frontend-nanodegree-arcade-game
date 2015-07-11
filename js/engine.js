@@ -79,10 +79,10 @@ var Engine = (function(global) {
             case "game":		
 				updateEntities(dt);
 				checkCollisions();
-				checkWin();
+				checkSafe();
 				break;
 				
-			case "win":
+			case "safe":
 				reset();
 				break;
 		}
@@ -180,12 +180,12 @@ var Engine = (function(global) {
 				drawLives();
 				break;
 				
-			case "win":
+			case "safe":
 				drawField();	
 				drawScore();
 				drawLives();
 
-				//Add  "Win!" message
+				//Add  "Safe!" message
 				ctx.textAlign = "center";
 				ctx.font = "bold 50px Georgia";
 				ctx.fillText("YOU MADE IT!", canvas.width/2, 450 );

@@ -137,9 +137,9 @@ Gem.prototype.render = function() {
 
 //GAME FUNCTIONS
 // Check to see if player has reached water
-var checkWin = function() {
+var checkSafe = function() {
 	if (player.y === -12 && gameState === "game") {
-		gameState = "win";
+		gameState = "safe";
 		player.addScore("safe");
 	}
 }
@@ -180,7 +180,7 @@ document.addEventListener('keyup', function(e) {
 				player.handleInput(allowedKeys[e.keyCode]);
 				break;
 			
-			case "win":
+			case "safe":
 				var allowedKeys = {
 						81: 'quit',
 						80: 'play',
@@ -223,7 +223,7 @@ var gameReset = "null";
 var titleBug = new Enemy()
 titleBug.x = 0;
 titleBug.y = canvas.height - 200;
-titleBug.speed = 100;
+titleBug.speed = 400;
 
 // instantiate enemies 
 var allEnemies = [];
@@ -265,4 +265,7 @@ for ( i = 0; i < numGems; i++) {
 
 var gem = new Gem();
 //TODO: Remove event listeners when not needed (by game state)	
-//TODO: increase bug speed on start screen
+//TODO: Correct instructions on title screen 
+//TODO: Add instructions to game play screen
+//TODO: Add score and chosen player to Game Over screen
+//TODO: Add quit/continue/restart buttons to "Safe" screen
