@@ -198,11 +198,11 @@ var Engine = (function(global) {
 		if  (gameState === "title" ) {
             	titleBug.renderTitle();
 		} else if (gameState != "gameOver" ){
-			allEnemies.forEach(function(enemy) {
-				enemy.render();
-			});
 			allGems.forEach(function(gem) {
 				gem.render();
+			});
+			allEnemies.forEach(function(enemy) {
+				enemy.render();
 			});
 			player.render();
 		}

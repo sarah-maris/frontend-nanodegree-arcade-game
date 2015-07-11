@@ -91,8 +91,7 @@ Player.prototype.handleInput = function(key) {
 			if (this.x < 400) {
 				this.x += canvas.width / 5;
 			}
-			break;	
-		
+			break;
 	}
 }
 
@@ -113,7 +112,7 @@ Player.prototype.score = function() {
 var Gem = function(){
 	this.sprite = gemOptions[Math.floor(Math.random() * gemOptions.length)];
 	this.y = ( Math.floor(Math.random() * 3 )* 83  ) + 60;  // line up on tiles
-	this.x =  Math.random() * (canvas.width - 64); // start at random positions on the x-axis
+	this.x =   Math.floor(Math.random() * 5 ) * canvas.width / 5; // start at random positions on the x-axis    * canvas.width / 5
 }
 
 var gemOptions = [
