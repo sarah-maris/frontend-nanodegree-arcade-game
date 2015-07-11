@@ -141,6 +141,7 @@ var Engine = (function(global) {
 		
 		function drawLives() {
 			ctx.textAlign = "right";
+			ctx.fillStyle = "#963009";
 			ctx.fillText( "Lives: ", canvas.width * 4 / 5, canvas.height );
 			ctx.save();
 			ctx.scale(0.2,0.2);	
@@ -153,6 +154,7 @@ var Engine = (function(global) {
 		function drawScore() {
 			ctx.textAlign = "left";
 			ctx.font = "bold 24px Arial";
+			ctx.fillStyle = "#963009";
 			ctx.fillText( "Score: ", 0, canvas.height );
 			ctx.fillText( player.score, canvas.width / 5, canvas.height );
 		}
@@ -187,6 +189,7 @@ var Engine = (function(global) {
 				//Add  "Safe!" message
 				ctx.textAlign = "center";
 				ctx.font = "bold 50px Georgia";
+				ctx.fillStyle = "#963009";
 				ctx.fillText("YOU MADE IT!", canvas.width/2, 450 );
 				break;
 						
@@ -216,16 +219,37 @@ var Engine = (function(global) {
      * on your enemy and player entities within app.js
      */
     function renderEntities() {
-		if  (gameState === "title" ) {
+		
+		switch (gameState) {
+            case "title":
             	titleBug.renderTitle();
-		} else if (gameState != "gameOver" ){
-			allGems.forEach(function(gem) {
-				gem.render();
-			});
-			allEnemies.forEach(function(enemy) {
-				enemy.render();
-			});
-			player.render();
+				break;
+				
+			case "game":
+				allGems.forEach(function(gem) {
+					gem.render();
+				});
+				allEnemies.forEach(function(enemy) {
+					enemy.render();
+				});
+				player.render();
+				break;
+				
+			case "safe":
+				allGems.forEach(function(gem) {
+					gem.render();
+				});
+				allEnemies.forEach(function(enemy) {
+					enemy.render();
+				});
+				allOptions.forEach(function(option) {
+					option.render();
+				});
+				player.render();
+				break;
+				
+			case "gameOver":	
+				break;
 		}
     }
 
@@ -234,14 +258,26 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        if (gameReset === "play") {
-			gameState = "game";
-			player.reset()
-			gameReset = null;
-		} else  if (gameReset === "quit") {
-			gameState = "gameOver";
-			render();
-			win.cancelAnimationFrame(main);
+		document.addEventListener("click", chooseOption);
+		
+		switch (gameReset) {
+            case "Continue":
+				gameState = "game";
+				player.reset()
+				gameReset = null;
+				break;
+			
+			case "Quit":
+				gameState = "gameOver";
+				render();
+				win.cancelAnimationFrame(main);
+				break;
+				
+			case "Reset":
+				var	gameState = "title";
+				var gameReset = "null";
+				main();
+				break;			
 		}
     }
 
@@ -261,10 +297,7 @@ var Engine = (function(global) {
 		'images/char-pink-girl.png',
 		'images/gem-blue-small.png',
 		'images/gem-green-small.png',
-		'images/gem-orange-small.png',
-		'images/continue.png',
-		'images/restart.png',
-		'images/quit.png'
+		'images/gem-orange-small.png'
     ]);
     Resources.onReady(init);
 

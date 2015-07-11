@@ -137,6 +137,28 @@ Gem.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
+//OPTIONS Class
+var Option = function(){
+	this.sprite = 'images/enemy-bug.png';
+}
+
+Option.prototype.render = function() {
+    //ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+	ctx.textAlign = "center";
+	ctx.font = "bold 18px Georgia";
+	//ctx.fillStyle = "#fff";
+	ctx.fillText(this.title, this.x + 50, this.y + 110 );
+	ctx.strokeStyle = "#000";
+	ctx.lineWidth = 0.5;
+	ctx.strokeText(this.title, this.x + 50, this.y + 110 );
+}
+
+var gameOptions = [
+	'Continue',
+	'Restart',
+	'Quit'
+]
+
 //GAME FUNCTIONS
 // Check to see if player has reached water
 var checkSafe = function() {
@@ -216,6 +238,30 @@ function choosePlayer() {
 	document.removeEventListener("click", choosePlayer);
 }
 
+function chooseOption() {
+	var mouseX = event.x - canvas.offsetLeft;
+	var mouseY = event.y - canvas.offsetTop; 
+	var optionWidth = 101;
+	var optionTop = 450;
+	
+	if ( mouseY <= canvas.height && mouseY >= optionTop ) {
+		
+		for (i = 0; i < gameOptions.length; i++ ) {
+			
+			var optionLeft = optionWidth * ( i + 1 );
+			var optionRight = optionWidth * ( i + 2 );
+			
+			if ( mouseX >= optionLeft && mouseX < optionRight ) {
+				chosenOption = allOptions[ i ].title;
+			}
+		}
+	}
+	
+	console.log(chosenOption);
+	gameReset = chosenOption;
+//document.removeEventListener("click", choosePlayer);
+}
+
 //INITIALIZE GAME
 //initialize game state
 var	gameState = "title";
@@ -265,9 +311,16 @@ for ( i = 0; i < numGems; i++) {
 	allGems[ i ] = new Gem();
 }
 
-var gem = new Gem();
+//instantiate game options
+var allOptions = [];
+for ( i = 0; i < numGems; i++) {
+	allOptions[ i ] = new Option();
+	allOptions[ i ].title = gameOptions[ i ];
+	allOptions[ i ].x = ( i + 1) * canvas.width / 5;
+	allOptions[ i ].y = 403;  
+}
+
 //TODO: Remove event listeners when not needed (by game state)	
-//TODO: Correct instructions on title screen 
 //TODO: Add instructions to game play screen
 //TODO: Add score and chosen player to Game Over screen
 //TODO: Add quit/continue/restart buttons to "Safe" screen
