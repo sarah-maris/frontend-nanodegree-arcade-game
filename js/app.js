@@ -262,4 +262,4 @@ for ( i = 0; i < numGems; i++) {
 
 var gem = new Gem();
 //TODO: Remove event listeners when not needed (by game state)	
-//TODO: display score on screen
+//TODO: increase bug speed on start screen

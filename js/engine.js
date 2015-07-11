@@ -138,7 +138,14 @@ var Engine = (function(global) {
 				ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
 			}
 		}
-	
+		
+		function drawScore() {
+			ctx.textAlign = "left";
+			ctx.font = "bold 24px Arial";
+			ctx.fillText( "Score: ", 0, canvas.height );
+			ctx.fillText( player.score, canvas.width / 5, canvas.height );
+		}
+		
 		switch (gameState) {
             case "title":				
 
@@ -158,11 +165,13 @@ var Engine = (function(global) {
 
             case "game":
 				drawField();
+				drawScore();
 				break;
 				
 			case "win":
 				drawField();	
-				
+				drawScore();	
+
 				//Add  "Win!" message
 				ctx.textAlign = "center";
 				ctx.font = "bold 50px Georgia";
