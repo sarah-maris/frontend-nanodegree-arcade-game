@@ -204,7 +204,6 @@ var Engine = (function(global) {
 			allEnemies.forEach(function(enemy) {
 				enemy.render();
 			});
-			gem.render();
 			player.render();
 		}
     }

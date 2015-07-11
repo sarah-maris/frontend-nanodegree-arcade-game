@@ -50,6 +50,7 @@ Enemy.prototype.render = function() {
 var Player = function() {
 	this.x = 200;
 	this.y = 403;
+	this.score = 0;
 }
 
 Player.prototype.update = function(dt) {
@@ -102,9 +103,8 @@ Player.prototype.reset = function() {
 }
 
 // update player score
-Player.prototype.score = function() {
+Player.prototype.AddScore = function() {
 	console.log("WIN!");
-	gem = new Gem();
 }
 
 //GEM Class 
@@ -121,7 +121,9 @@ var gemOptions = [
 ]
 
 Gem.prototype.reset = function() {	
-	gem = new Gem();
+	this.sprite = gemOptions[Math.floor(Math.random() * gemOptions.length)];
+	this.y = ( Math.floor(Math.random() * 3 )* 83  ) + 60;  // line up on tiles
+	this.x =   Math.floor(Math.random() * 5 ) * canvas.width / 5; // start at random positions on the x-axis    * canvas.width / 5
 }
 
 // Draw the gems the screen
@@ -147,13 +149,14 @@ var checkCollisions = function() {
 	for(i = 0; i < allGems.length; i++ ) { 
 		if (  Math.abs( allGems[ i ].x  -  player.x) < 50 && Math.abs( allGems[ i ].y  - player.y) < 50  ) {
 			allGems[ i ].reset();
-			//player.score(gem);
+			console.log("GEM FOUND");
+			player.AddScore(gem);
 		}
 	}
 	if (  Math.abs( gem.x  -  player.x) < 50 && Math.abs( gem.y  - player.y) < 50  ) {
 			//gem.reset();
 			console.log("GEM FOUND");
-			player.score(gem);
+			player.AddScore(gem);
 		}
 	
 }
@@ -252,9 +255,9 @@ var player = new Player();
 
 //instantiate gems
 var allGems = [];
-//for ( i = 0; i < 10; i++) {
-	//allGems[ i ] = new Gem();
-//}
+for ( i = 0; i < 3; i++) {
+	allGems[ i ] = new Gem();
+}
 
 var gem = new Gem();
 //TODO: Remove event listeners when not needed (by game state)	
