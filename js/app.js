@@ -136,9 +136,14 @@ var checkWin = function() {
 }
 
 var checkCollisions = function() {
-	for(i = 0; i < numEnemies; i++ ) { 
+	for(i = 0; i < allEnemies.length; i++ ) { 
 		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
 			player.reset();
+		}
+	}
+	for(i = 0; i < allGems.length; i++ ) { 
+		if (  Math.abs( allGems[ i ].x  -  player.x) < 50 && Math.abs( allGems[ i ].y  - player.y) < 50  ) {
+			console.log("got gem");
 		}
 	}
 }
