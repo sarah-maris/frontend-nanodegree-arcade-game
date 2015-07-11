@@ -151,6 +151,7 @@ var checkCollisions = function() {
 	for(i = 0; i < allEnemies.length; i++ ) { 
 		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
 			player.reset();
+			player.lives = player.lives - 1; 
 		}
 	}
 	for(i = 0; i < allGems.length; i++ ) { 
