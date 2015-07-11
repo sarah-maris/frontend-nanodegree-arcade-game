@@ -51,6 +51,7 @@ var Player = function() {
 	this.x = 200;
 	this.y = 403;
 	this.score = 0;
+	this.lives = 3;
 }
 
 Player.prototype.update = function(dt) {
@@ -252,7 +253,7 @@ for (i = 0; i < playerOptions.length; i++ ) {
 
 // instantiate player
 var player = new Player();
-
+			
 //instantiate gems
 var allGems = [];
 var numGems = 3; //set max number of gems on screen

@@ -146,6 +146,17 @@ var Engine = (function(global) {
 			ctx.fillText( player.score, canvas.width / 5, canvas.height );
 		}
 		
+		function drawLives() {
+			ctx.textAlign = "right";
+			ctx.fillText( "Lives: ", canvas.width * 4 / 5, canvas.height );
+			ctx.save();
+			ctx.scale(0.2,0.2);	
+			for (var i = 0; i < player.lives; i++) {
+				ctx.drawImage(Resources.get(player.sprite), canvas.width * 4 + i * 100, canvas.height * 4.75 );
+			}
+			ctx.restore();
+		}
+		
 		switch (gameState) {
             case "title":				
 
@@ -166,11 +177,13 @@ var Engine = (function(global) {
             case "game":
 				drawField();
 				drawScore();
+				drawLives();
 				break;
 				
 			case "win":
 				drawField();	
-				drawScore();	
+				drawScore();
+				drawLives();
 
 				//Add  "Win!" message
 				ctx.textAlign = "center";
