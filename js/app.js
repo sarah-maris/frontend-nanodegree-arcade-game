@@ -52,6 +52,7 @@ var Player = function() {
 	this.y = 403;
 	this.score = 0;
 	this.lives = 3;
+	this.sprite = 'images/char-boy.png'; 	//Add default sprite if no sprite is chosen
 }
 
 Player.prototype.update = function(dt) {
@@ -59,11 +60,7 @@ Player.prototype.update = function(dt) {
 }
 
 Player.prototype.render = function() {
-	//Add default sprite if no sprite is chosen
-	if ( this.sprite ) { 
-		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-	} else 
-    ctx.drawImage(Resources.get('images/char-boy.png'), this.x, this.y);
+	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 Player.prototype.handleInput = function(key) {
@@ -152,12 +149,14 @@ var checkCollisions = function() {
 		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
 			player.reset();
 			player.lives = player.lives - 1; 
+		};
+		if ( player.lives < 1 ) {
+			gameState = "gameOver";			
 		}
 	}
 	for(i = 0; i < allGems.length; i++ ) { 
 		if (  Math.abs( allGems[ i ].x  -  player.x) < 50 && Math.abs( allGems[ i ].y  - player.y) < 50  ) {
 			allGems[ i ].reset();
-console.log("GEM FOUND"); //REMOVE WHEN SCORE FUNCTION IS FINAL
 			player.addScore("gem");
 		}
 	}
