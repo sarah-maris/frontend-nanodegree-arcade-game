@@ -104,8 +104,7 @@ Player.prototype.reset = function() {
 // update player score
 Player.prototype.score = function() {
 	console.log("WIN!");
-	alert ("you win!");
-	this.reset();
+	gem = new Gem();
 }
 
 //GEM Class 
@@ -120,6 +119,10 @@ var gemOptions = [
 	'images/gem-green-small.png',
 	'images/gem-orange-small.png'
 ]
+
+Gem.prototype.reset = function() {	
+	gem = new Gem();
+}
 
 // Draw the gems the screen
 Gem.prototype.render = function() {
@@ -143,9 +146,16 @@ var checkCollisions = function() {
 	}
 	for(i = 0; i < allGems.length; i++ ) { 
 		if (  Math.abs( allGems[ i ].x  -  player.x) < 50 && Math.abs( allGems[ i ].y  - player.y) < 50  ) {
-			console.log("got gem");
+			allGems[ i ].reset();
+			//player.score(gem);
 		}
 	}
+	if (  Math.abs( gem.x  -  player.x) < 50 && Math.abs( gem.y  - player.y) < 50  ) {
+			//gem.reset();
+			console.log("GEM FOUND");
+			player.score(gem);
+		}
+	
 }
 
 //EVENT LISTENERS
@@ -242,11 +252,11 @@ var player = new Player();
 
 //instantiate gems
 var allGems = [];
-for ( i = 0; i < 10; i++) {
-	allGems[ i ] = new Gem();
-}
+//for ( i = 0; i < 10; i++) {
+	//allGems[ i ] = new Gem();
+//}
 
-
+var gem = new Gem();
 //TODO: Remove event listeners when not needed (by game state)	
 //TODO: add gems and scoring
 //TODO: add key for slow down
