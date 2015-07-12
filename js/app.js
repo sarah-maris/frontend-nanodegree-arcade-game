@@ -214,7 +214,7 @@ document.addEventListener('keyup', function(e) {
 	}
 });
 
-document.addEventListener("click", choosePlayer);
+
 
 function choosePlayer() {
 	var mouseX = event.x - canvas.offsetLeft;
@@ -257,10 +257,10 @@ function chooseOption() {
 		}
 	}
 	
-	console.log(chosenOption);
+console.log(chosenOption);
 	gameReset = chosenOption;
-		console.log(gameReset);
-//document.removeEventListener("click", choosePlayer);
+console.log(gameReset);
+	document.removeEventListener("click", chooseOption);
 }
 
 //INITIALIZE GAME
@@ -321,6 +321,7 @@ for ( i = 0; i < numGems; i++) {
 	allOptions[ i ].y = 403;  
 }
 
+document.addEventListener("click", choosePlayer);
 //TODO: Remove event listeners when not needed (by game state)	
 //TODO: Add instructions to game play screen
 //TODO: Add score and chosen player to Game Over screen
