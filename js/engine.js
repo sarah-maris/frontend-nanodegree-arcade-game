@@ -21,7 +21,7 @@ var Engine = (function(global) {
      */
 
     var doc = global.document,
-        win = global.window,
+		win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
@@ -40,14 +40,14 @@ var Engine = (function(global) {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
- 
+
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        update(dt);		
+        update(dt);
         render();
 
         /* Set our lastTime variable which is used to determine the time delta
@@ -77,12 +77,12 @@ var Engine = (function(global) {
 				updateEntities(dt);
                 break;
 
-            case "game":		
+            case "game":
 				updateEntities(dt);
 				checkCollisions();
 				checkSafe();
 				break;
-				
+
 			case "safe":
 				reset();
 				break;
@@ -95,7 +95,7 @@ var Engine = (function(global) {
 				titleBug.updateTitle(dt);
                 break;
 
-            case "game":	
+            case "game":
 				allEnemies.forEach(function(enemy) {
 					enemy.update(dt);
 				});
@@ -103,9 +103,9 @@ var Engine = (function(global) {
 				break;
 		}
     }
-	 		
 
-    function render() {	
+
+    function render() {
 		var rowImages = [
 			'images/water-block.png',   // Top row is water
 			'images/stone-block.png',   // Row 1 of 3 of stone
@@ -117,7 +117,7 @@ var Engine = (function(global) {
 		numRows = 6,
 		numCols = 5,
 		row, col;
-		 
+
 		function drawField() {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			for (row = 0; row < numRows; row++) {
@@ -126,30 +126,50 @@ var Engine = (function(global) {
 				}
 			}
 		}
-		
+
 		function drawGrass() {
 			//create white field
 			ctx.rect(0,0,canvas.height, canvas.width);
 			ctx.fillStyle = "#fff";
 			ctx.fill();
-			
+
 			//draw row of grass at bottom
 			var rowNum = 5;
 			for (col = 0; col < numCols; col++) {
 				ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
 			}
 		}
-		
+
+		function drawInstructions() {
+			ctx.textAlign = "center";
+			ctx.font = "bold italic 24px Arial";
+			ctx.fillStyle = "#963009";
+			ctx.fillText( "Use arrow keys to move → ↓ ← ↑ ", canvas.width  / 2, 40);
+		}
+
 		function drawLives() {
 			ctx.textAlign = "right";
 			ctx.fillStyle = "#963009";
 			ctx.fillText( "Lives: ", canvas.width * 4 / 5, canvas.height );
 			ctx.save();
-			ctx.scale(0.2,0.2);	
+			ctx.scale(0.2,0.2);
 			for (var i = 0; i < player.lives; i++) {
 				ctx.drawImage(Resources.get(player.sprite), canvas.width * 4 + i * 100, canvas.height * 4.75 );
 			}
 			ctx.restore();
+		}
+
+		function drawSafe() {
+			ctx.textAlign = "center"; 
+			ctx.font = "bold 50px Georgia";
+			ctx.fillStyle = "#963009";
+			ctx.fillText("YOU MADE IT!", canvas.width/2, 450 );
+			ctx.font = "italic 24px Arial";
+			ctx.fillStyle = "#963009";
+			ctx.fillText("Click to choose", canvas.width/2, 500 );
+			ctx.strokeStyle = "#000";
+			ctx.lineWidth = 0.5;
+			ctx.strokeText("Click to choose", canvas.width/2, 500 );
 		}
 
 		function drawScore() {
@@ -159,19 +179,19 @@ var Engine = (function(global) {
 			ctx.fillText( "Score: ", 0, canvas.height );
 			ctx.fillText( player.score, canvas.width / 5, canvas.height );
 		}
-		
+
 		function drawTitle() {
 			ctx.font = "48px Georgia";
 			ctx.textAlign = "left";
 			ctx.fillStyle = "#963009";
-			ctx.fillText("Oh No!", 6, 200 );	
+			ctx.fillText("Oh No!", 6, 200 );
 			ctx.textAlign = "center";
 			ctx.font = "bold 200px Georgia";
 			ctx.fillText("Bugs", canvas.width/2, 350 );
 		}
-		
+
 		switch (gameState) {
-            case "title":				
+            case "title":
 				drawGrass();
 				drawTitle()
                 break;
@@ -180,37 +200,33 @@ var Engine = (function(global) {
 				drawField();
 				drawScore();
 				drawLives();
+				drawInstructions()
 				break;
-				
+
 			case "safe":
-				drawField();	
+				drawField();
 				drawScore();
 				drawLives();
-
-				//Add  "Safe!" message
-				ctx.textAlign = "center";
-				ctx.font = "bold 50px Georgia";
-				ctx.fillStyle = "#963009";
-				ctx.fillText("YOU MADE IT!", canvas.width/2, 450 );
+				drawSafe()
 				break;
-						
+
 			case "gameOver":
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				drawGrass();
 				//Game Over text
-				ctx.fillStyle = "#963009";
+				ctx.fillStyle = "#963009"; //move to separate function
 				ctx.textAlign = "center";
 				ctx.font = "bold 150px Georgia";
 				ctx.fillText("GAME", canvas.width/2, 175 );
 				ctx.fillText("OVER", canvas.width/2, 300 );
-				//Thank you text				
+				//Thank you text
 				ctx.font = "italic 25px Arial";
-				ctx.fillText("Thank you for playing!", canvas.width/2, 350 );	
-				//Princess snd boy	
-				ctx.drawImage(Resources.get('images/char-princess-girl.png'),25, 300);
+				ctx.fillText("Thank you for playing!", canvas.width/2, 350 );
+				//Princess snd boy
+				ctx.drawImage(Resources.get('images/char-princess-girl.png'),25, 300); //change to separate Player render function
 				ctx.drawImage(Resources.get('images/char-boy.png'),380, 300);
                 break;
-			
+
 		}
 		renderEntities();
     }
@@ -220,12 +236,12 @@ var Engine = (function(global) {
      * on your enemy and player entities within app.js
      */
     function renderEntities() {
-		
+
 		switch (gameState) {
             case "title":
             	titleBug.renderTitle();
 				break;
-				
+
 			case "game":
 				allGems.forEach(function(gem) {
 					gem.render();
@@ -235,7 +251,7 @@ var Engine = (function(global) {
 				});
 				player.render();
 				break;
-				
+
 			case "safe":
 				allGems.forEach(function(gem) {
 					gem.render();
@@ -248,8 +264,8 @@ var Engine = (function(global) {
 				});
 				player.render();
 				break;
-				
-			case "gameOver":	
+
+			case "gameOver":
 				break;
 		}
     }
@@ -260,7 +276,7 @@ var Engine = (function(global) {
      */
     function reset() {
 		document.addEventListener("click", chooseOption);
-		
+
 		switch (gameReset) {
             case "Continue":
 				document.removeEventListener("click", chooseOption);
@@ -268,19 +284,19 @@ var Engine = (function(global) {
 				player.reset()
 				gameReset = null;
 				break;
-			
+
 			case "Quit":
 				document.removeEventListener("click", chooseOption);
 				gameState = "gameOver";
 				render();
 				win.cancelAnimationFrame(main);
 				break;
-				
+
 			case "Start Over":
 				document.removeEventListener("click", chooseOption);
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				init();
-				break;			
+				break;
 		}
     }
 
@@ -288,15 +304,15 @@ var Engine = (function(global) {
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
      */
-    Resources.load([
+    Resources.load([  
         'images/stone-block.png',
         'images/water-block.png',
-        'images/grass-block.png',
+        'images/grass-block.png',  
         'images/enemy-bug.png',
         'images/char-boy.png',
-		'images/char-cat-girl.png', 
-		'images/char-horn-girl.png', 
-		'images/char-princess-girl.png', 
+		'images/char-cat-girl.png',
+		'images/char-horn-girl.png',
+		'images/char-princess-girl.png',
 		'images/char-pink-girl.png',
 		'images/gem-blue-small.png',
 		'images/gem-green-small.png',
@@ -310,5 +326,5 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
 	global.canvas = canvas;
- 
+
 })(this);
