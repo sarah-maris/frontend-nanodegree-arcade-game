@@ -2,24 +2,10 @@
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and
  * render methods on your player and enemy objects (defined in your app.js).
- *
- * A game engine works by drawing the entire game screen over and over, kind of
- * like a flipbook you may have created as a kid. When your player moves across
- * the screen, it may look like just that image/character is moving or being
- * drawn but that is not the case. What's really happening is the entire "scene"
- * is being drawn over and over, presenting the illusion of animation.
- *
- * This engine is available globally via the Engine variable and it also makes
- * the canvas' context (ctx) object globally available to make writing app.js
- * a little simpler to work with.
  */
 
 var Engine = (function(global) {
-    /* Predefine the variables we'll be using within this scope,
-     * create the canvas element, grab the 2D context for that canvas
-     * set the canvas elements height/width and add it to the DOM.
-     */
-
+	//Declare and define needed variables
     var doc = global.document,
 		win = global.window,
         canvas = doc.createElement('canvas'),
@@ -30,47 +16,32 @@ var Engine = (function(global) {
     canvas.height = 606;
     doc.body.appendChild(canvas);
 
-    /* This function serves as the kickoff point for the game loop itself
-     * and handles properly calling the update and render methods.
-     */
+	// Game loop function: animates action on canvas
     function main() {
-        /* Get our time delta information which is required if your game
-         * requires smooth animation. Because everyone's computer processes
-         * instructions at different speeds we need a constant value that
-         * would be the same for everyone (regardless of how fast their
-         * computer is) - hurray time!
-         */
-
+		// Create time delta to provide a constant to smooth animation in different browsers
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
-        /* Call our update/render functions, pass along the time delta to
-         * our update function since it may be used for smooth animation.
-         */
+		// Update events in game by calling functions using time delta parameter to keep animation smooth
         update(dt);
+		
+		// Render changes on screen
         render();
 
-        /* Set our lastTime variable which is used to determine the time delta
-         * for the next time this function is called.
-         */
+		// Update time variable to current time
         lastTime = now;
 
-        /* Use the browser's requestAnimationFrame function to call this
-         * function again as soon as the browser is able to draw another frame.
-         */
+		 // Re-start loop (main function) when browser is ready for next frame
         win.requestAnimationFrame(main);
     };
 
-    /* This function does some initial setup that should only occur once,
-     * particularly setting the lastTime variable that is required for the
-     * game loop.
-     */
+	// Initialize game at start or when reset is called
     function init() {
         lastTime = Date.now();
 		instantiateAll();
         main();
     }
-
+    // Call functions needed for each game state    
     function update(dt) {
 		switch (gameState) {
             case "title":
@@ -89,7 +60,8 @@ var Engine = (function(global) {
 				break;
 		}
     }
-
+	
+    // Update entities needed in each game state 
     function updateEntities(dt) {
         switch (gameState) {
             case "title":
@@ -105,7 +77,7 @@ var Engine = (function(global) {
 		}
     }
 
-
+    // Render background, text and entities needed for each game state 
     function render() {
 		switch (gameState) {
             case "title":
@@ -124,7 +96,7 @@ var Engine = (function(global) {
 				drawField();
 				drawScore();
 				drawLives();
-				drawSafe()
+				drawSafeMsg()
 				break;
 
 			case "gameOver":
@@ -133,13 +105,11 @@ var Engine = (function(global) {
                 break;
 
 		}
+		// Call for changes in entities
 		renderEntities();
     }
 
-    /* This function is called by the render function and is called on each game
-     * tick. It's purpose is to then call the render functions you have defined
-     * on your enemy and player entities within app.js
-     */
+    // Render entities needed for each game state 
     function renderEntities() {
 
 		switch (gameState) {
@@ -170,16 +140,12 @@ var Engine = (function(global) {
 				player.render();
 				break;
 
-			case "gameOver":
-				break;
 		}
     }
 
-    /* This function does nothing but it could have been a good place to
-     * handle game reset states - maybe a new game menu or a game over screen
-     * those sorts of things. It's only called once by the init() method.
-     */
+    // Handle game reset options in "safe" state 
     function reset() {
+		// Listen for click on game state options
 		document.addEventListener("click", chooseOption);
 
 		switch (gameReset) {
@@ -200,16 +166,12 @@ var Engine = (function(global) {
 			case "Start Over":
 				document.removeEventListener('keyup', chooseMove);
 				document.removeEventListener("click", chooseOption);
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				init();
 				break;
 		}
     }
 
-    /* Go ahead and load all of the images we know we're going to need to
-     * draw our game level. Then set init as the callback method, so that when
-     * all of these images are properly loaded our game will start.
-     */
+    // Load images needed for game 
     Resources.load([  
         'images/stone-block.png',
         'images/water-block.png',
@@ -226,10 +188,7 @@ var Engine = (function(global) {
     ]);
     Resources.onReady(init);
 
-    /* Assign the canvas' context object to the global variable (the window
-     * object when run in a browser) so that developer's can use it more easily
-     * from within their app.js files.
-     */
+	// Make ctx and canvas available outside Engine function
     global.ctx = ctx;
 	global.canvas = canvas;
 

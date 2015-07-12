@@ -380,7 +380,7 @@ function drawLives() {
 	ctx.restore();
 }
 
-function drawSafe() {
+function drawSafeMsg() {
 	ctx.textAlign = "center"; 
 	ctx.font = "bold 50px Georgia";
 	ctx.fillStyle = "#963009";
