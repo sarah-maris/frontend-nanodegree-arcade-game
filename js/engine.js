@@ -259,7 +259,7 @@ var Engine = (function(global) {
      */
     function reset() {
 		document.addEventListener("click", chooseOption);
-		
+		console.log("in reset(): ", gameReset);
 		switch (gameReset) {
             case "Continue":
 				gameState = "game";
@@ -274,9 +274,9 @@ var Engine = (function(global) {
 				break;
 				
 			case "Reset":
-				var	gameState = "title";
-				var gameReset = "null";
-				main();
+				gameState = "title";
+				gameReset = "null";
+				init()
 				break;			
 		}
     }

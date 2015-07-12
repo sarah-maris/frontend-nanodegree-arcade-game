@@ -155,7 +155,7 @@ Option.prototype.render = function() {
 
 var gameOptions = [
 	'Continue',
-	'Restart',
+	'Start Over',
 	'Quit'
 ]
 
@@ -259,6 +259,7 @@ function chooseOption() {
 	
 	console.log(chosenOption);
 	gameReset = chosenOption;
+		console.log(gameReset);
 //document.removeEventListener("click", choosePlayer);
 }
 
