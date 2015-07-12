@@ -106,10 +106,8 @@ Player.prototype.reset = function() {
 Player.prototype.addScore = function(scoreType) {
 	if (scoreType === "gem") {
 		this.score += 200;
-console.log(this.score);  //REMOVE WHEN SCORE FUNCTION IS FINAL
 	} else if (scoreType === "safe") {
 		this.score += 1000;
-console.log(this.score); //REMOVE WHEN SCORE FUNCTION IS FINAL
 	}
 }
 
@@ -256,73 +254,71 @@ function chooseOption() {
 			}
 		}
 	}
-	
-console.log(chosenOption);
 	gameReset = chosenOption;
-console.log(gameReset);
-	document.removeEventListener("click", chooseOption);
 }
 
-//INITIALIZE GAME
-//initialize game state
-var	gameState = "title";
-var gameReset = "null";
-
-// instantiate bug for title screen animation
-var titleBug = new Enemy()
-titleBug.x = 0;
-titleBug.y = canvas.height - 200;
-titleBug.speed = 400;
-
-// instantiate enemies 
-var allEnemies = [];
-var numEnemies = 3;
-
-for (i = 0; i < numEnemies; i++ ) {
-	allEnemies[ i ] = new Enemy(); 
-	allEnemies[ i ].y = i * 83 + 60;  //enemies line up on tiles
-	allEnemies[ i ].x =  Math.random() * (canvas.width - 64); //enemies start at random positions on the x-axis
-	allEnemies[ i ].speed = Math.random() * 200 + 10; 
-}
-
-// instantiate player options
-var allPlayers = [];
-var playerOptions = [
+//Set global variables
+var	gameState = "title", 
+	gameReset = "null",
+	titleBug,
+	allEnemies = [],
+	numEnemies = 3,
+	allPlayers = [],
+	playerOptions = [
 		'images/char-boy.png', 
 		'images/char-cat-girl.png', 
 		'images/char-horn-girl.png', 
 		'images/char-princess-girl.png', 
 		'images/char-pink-girl.png'
-];
+	],
+	player,
+	allGems = [],
+	numGems = 3,
+	allOptions = [];
+	
+var instantiateAll = function() {
+	//initialize game state
+	gameState = "title";
+	gameReset = "null";
 
-for (i = 0; i < playerOptions.length; i++ ) {
-	allPlayers[ i ] = new Player(); 
-	allPlayers[ i ].y = 403;  //player options line up on bottom tiles
-	allPlayers[ i ].x = i * canvas.width / 5;
-	allPlayers[ i ].sprite = playerOptions[ i ];
-}
+	// instantiate bug for title screen animation
+	titleBug = new Enemy()
+	titleBug.x = 0;
+	titleBug.y = canvas.height - 200;
+	titleBug.speed = 400;
 
-// instantiate player
-var player = new Player();
+	// instantiate enemies 
+	for (i = 0; i < numEnemies; i++ ) {
+		allEnemies[ i ] = new Enemy(); 
+		allEnemies[ i ].y = i * 83 + 60;  //enemies line up on tiles
+		allEnemies[ i ].x =  Math.random() * (canvas.width - 64); //enemies start at random positions on the x-axis
+		allEnemies[ i ].speed = Math.random() * 200 + 10; 
+	}
+
+	// instantiate player options
+	for (i = 0; i < playerOptions.length; i++ ) {
+		allPlayers[ i ] = new Player(); 
+		allPlayers[ i ].y = 403;  //player options line up on bottom tiles
+		allPlayers[ i ].x = i * canvas.width / 5;
+		allPlayers[ i ].sprite = playerOptions[ i ];
+	}
+
+	// instantiate player
+	player = new Player();
 			
-//instantiate gems
-var allGems = [];
-var numGems = 3; //set max number of gems on screen
-for ( i = 0; i < numGems; i++) {
-	allGems[ i ] = new Gem();
+	//instantiate gems
+	for ( i = 0; i < numGems; i++) {
+		allGems[ i ] = new Gem();
+	}
+
+	//instantiate game options
+	for ( i = 0; i < numGems; i++) {
+		allOptions[ i ] = new Option();
+		allOptions[ i ].title = gameOptions[ i ];
+		allOptions[ i ].x = ( i + 1) * canvas.width / 5;
+		allOptions[ i ].y = 403;  
+	}
+	document.addEventListener("click", choosePlayer);
 }
 
-//instantiate game options
-var allOptions = [];
-for ( i = 0; i < numGems; i++) {
-	allOptions[ i ] = new Option();
-	allOptions[ i ].title = gameOptions[ i ];
-	allOptions[ i ].x = ( i + 1) * canvas.width / 5;
-	allOptions[ i ].y = 403;  
-}
-
-document.addEventListener("click", choosePlayer);
-//TODO: Remove event listeners when not needed (by game state)	
 //TODO: Add instructions to game play screen
-//TODO: Add score and chosen player to Game Over screen
-//TODO: Add quit/continue/restart buttons to "Safe" screen
