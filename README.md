@@ -1,6 +1,15 @@
-frontend-nanodegree-arcade-game
+Oh No! Bugs: frontend-nanodegree-arcade-game: 
 ===============================
 
-Students should use this rubric: https://www.udacity.com/course/viewer#!/c-ud015/l-3072058665/m-3072588797
+How to play:
 
-for self-checking their submission.
+1) Click on a player to begin the game
+2) Move your player using the arrow keys ( → ↓ ← ↑ ) to navigate to the water.
+   If you get to the water you gain 1000 points.
+3) AVOID THE BUGS!  Every time you hit a bug you lose a life.  
+   Game is over after you have lost your three lives
+4) Collect gems to gain points
+   Each gem you collect is worth 200 points
+5) When you reach the water you can choose to Continue your game, 
+   Restart the game or Quit.
+6) HAVE FUN!

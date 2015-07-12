@@ -410,8 +410,3 @@ function drawTitle() {
 	ctx.font = "bold 200px Georgia";
 	ctx.fillText("Bugs", canvas.width/2, 350 );
 }
-
-
-
-//TODO: Add score and player to Game Over state
-//TODO: Clean up code and lint and add strict
