@@ -303,6 +303,115 @@ var instantiateAll = function() {
 	document.addEventListener("click", choosePlayer);
 }
 
+//Render background and text functions
+var rowImages = [
+	'images/water-block.png',   // Top row is water
+	'images/stone-block.png',   // Row 1 of 3 of stone
+	'images/stone-block.png',   // Row 2 of 3 of stone
+	'images/stone-block.png',   // Row 3 of 3 of stone
+	'images/grass-block.png',   // Row 1 of 2 of grass
+	'images/grass-block.png'    // Row 2 of 2 of grass
+	],
+numRows = 6,
+numCols = 5,
+row, col;
+
+function drawField() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	for (row = 0; row < numRows; row++) {
+		for (col = 0; col < numCols; col++) {
+			ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+		}
+	}
+}
+
+function drawGameOver() {
+	ctx.fillStyle = "#963009";
+	ctx.textAlign = "center";
+	ctx.font = "bold 150px Georgia";
+	ctx.fillText("GAME", canvas.width/2, 175 );
+	ctx.fillText("OVER", canvas.width/2, 300 );
+
+	//Final Score
+	ctx.textAlign = "left";
+	ctx.font = "bold 36px Georgia";
+	ctx.fillText( "Final Score: ", 0, canvas.height * 0.66 );
+	ctx.fillText( player.score, canvas.width * 0.5, canvas.height * 0.66 )
+	//Chosen player
+	ctx.save();
+	ctx.scale(1.75,1.75);
+	ctx.drawImage(Resources.get(player.sprite), canvas.width * 0.4, canvas.height * 0.2);
+	ctx.restore();
+	//Thank you text
+	ctx.font = "italic 24px Arial";
+	ctx.fillText("Thank you for playing!", 0, canvas.height * 0.72 );
+}
+
+function drawGrass() {
+	//create white field
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.rect(0,0,canvas.height, canvas.width);
+	ctx.fillStyle = "#fff";
+	ctx.fill();
+
+	//draw row of grass at bottom
+	var rowNum = 5;
+	for (col = 0; col < numCols; col++) {
+		ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
+	}
+}
+
+function drawInstructions() {
+	ctx.textAlign = "center";
+	ctx.font = "bold italic 24px Arial";
+	ctx.fillStyle = "#963009";
+	ctx.fillText( "Use arrow keys to move → ↓ ← ↑ ", canvas.width  / 2, 40);
+}
+
+function drawLives() {
+	ctx.textAlign = "right";
+	ctx.fillStyle = "#963009";
+	ctx.fillText( "Lives: ", canvas.width * 4 / 5, canvas.height );
+	ctx.save();
+	ctx.scale(0.2,0.2);
+	for (var i = 0; i < player.lives; i++) {
+		ctx.drawImage(Resources.get(player.sprite), canvas.width * 4 + i * 100, canvas.height * 4.75 );
+	}
+	ctx.restore();
+}
+
+function drawSafe() {
+	ctx.textAlign = "center"; 
+	ctx.font = "bold 50px Georgia";
+	ctx.fillStyle = "#963009";
+	ctx.fillText("YOU MADE IT!", canvas.width/2, 450 );
+	ctx.font = "italic 24px Arial";
+	ctx.fillStyle = "#963009";
+	ctx.fillText("Click to choose", canvas.width/2, 500 );
+	ctx.strokeStyle = "#000";
+	ctx.lineWidth = 0.5;
+	ctx.strokeText("Click to choose", canvas.width/2, 500 );
+}
+
+function drawScore() {
+	ctx.textAlign = "left";
+	ctx.font = "bold 24px Arial";
+	ctx.fillStyle = "#963009";
+	ctx.fillText( "Score: ", 0, canvas.height );
+	ctx.fillText( player.score, canvas.width / 5, canvas.height );
+}
+
+function drawTitle() {
+	ctx.font = "48px Georgia";
+	ctx.textAlign = "left";
+	ctx.fillStyle = "#963009";
+	ctx.fillText("Oh No!", 6, 200 );
+	ctx.textAlign = "center";
+	ctx.font = "bold 200px Georgia";
+	ctx.fillText("Bugs", canvas.width/2, 350 );
+}
+
+
+
 //TODO: Add score and player to Game Over state
-//TODO: Clean up code and lint
-//TODO: Fix choosePlayer -- now goes without 
+//TODO: Clean up code and lint and add strict
