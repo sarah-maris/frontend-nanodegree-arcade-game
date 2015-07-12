@@ -78,6 +78,7 @@ var Engine = (function(global) {
                 break;
 
             case "game":
+				document.addEventListener('keyup', chooseMove);
 				updateEntities(dt);
 				checkCollisions();
 				checkSafe();
@@ -293,6 +294,7 @@ var Engine = (function(global) {
 				break;
 
 			case "Start Over":
+				document.removeEventListener('keyup', chooseMove);
 				document.removeEventListener("click", chooseOption);
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				init();

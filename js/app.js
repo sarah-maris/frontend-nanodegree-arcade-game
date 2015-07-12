@@ -184,35 +184,16 @@ var checkCollisions = function() {
 	}
 }
 
-//EVENT LISTENERS
-// listen for key presses
-document.addEventListener('keyup', function(e) {
-        switch (gameState) { // REMOVE THIS AND MOVE keyup Functions out of add Event Listener
-            case "title":
-				gameState = "game";
-				break;
-
-			case "game":
-				var allowedKeys = {
-						37: 'left',
-						38: 'up',
-						39: 'right',
-						40: 'down'
-					};
-				player.handleInput(allowedKeys[e.keyCode]);
-				break;
-
-			case "safe": // REMOVE THIS AND MOVE keyup Functions out of add Event Listener
-				var allowedKeys = {
-						81: 'quit',
-						80: 'play',
-				};
-				gameReset = allowedKeys[e.keyCode];
-				break;
-	}
-});
-
-
+//Event Listener functions
+function chooseMove() {
+	var allowedKeys = {
+			37: 'left',
+			38: 'up',
+			39: 'right',
+			40: 'down'
+		};
+	player.handleInput(allowedKeys[event.keyCode]);
+}
 
 function choosePlayer() {
 	var mouseX = event.x - canvas.offsetLeft;
@@ -229,11 +210,12 @@ function choosePlayer() {
 
 			if ( mouseX >= spriteLeft && mouseX < spriteRight ) {
 				player.sprite = allPlayers[ i ].sprite;
+				gameState = "game";
+				document.removeEventListener("click", choosePlayer);
 			}
 		}
 	}
-	gameState = "game";
-	document.removeEventListener("click", choosePlayer);
+
 }
 
 function chooseOption() {
@@ -321,7 +303,6 @@ var instantiateAll = function() {
 	document.addEventListener("click", choosePlayer);
 }
 
-//TODO: Add instructions to game play screen
 //TODO: Add score and player to Game Over state
 //TODO: Clean up code and lint
 //TODO: Fix choosePlayer -- now goes without 
