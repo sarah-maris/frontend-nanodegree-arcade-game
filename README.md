@@ -1,5 +1,7 @@
-Oh No! Bugs -- a frogger clone
-+++++++++++++++++++++++++++++++
+Oh No! Bugs
+===========
+
+This game is a frogger clone designed for the Udacity Front-End Nanodegree Project #3
 
 How to play:
 
