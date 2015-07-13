@@ -28,7 +28,7 @@ var	gameState = "title",
 // Create class with shared attribute (image) 
 var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
-}
+};
 
 /* Title bug functions
  * Creates animation for title screen 
@@ -45,7 +45,7 @@ Enemy.prototype.updateTitle = function(dt) {
 		this.x += this.speed * dt;
 		this.y =  Math.sqrt( arcR * arcR -  this.x * this.x) + 38;
 	}
-}
+};
 
 //Draw title bugs on screen
 Enemy.prototype.renderTitle = function() {
@@ -62,10 +62,10 @@ Enemy.prototype.renderTitle = function() {
 		allPlayers.forEach(function(player) {
 			player.render();
 		});
-		ctx.font = "italic 25px Arial"
+		ctx.font = "italic 25px Arial";
 		ctx.fillText("Click on a character to begin the game", canvas.width/2, 425 );
 	}
-}
+};
 
 /* Game bugs
  * The enemies rendered for game play 
@@ -74,12 +74,12 @@ Enemy.prototype.renderTitle = function() {
 // Update the game bug's position
 Enemy.prototype.update = function(dt) {
 	this.x = (this.x % canvas.width ) + this.speed * dt;
-}
+};
 
 // Draw the game bug on the screen
 Enemy.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 /* Player Class
  * Our hero!
@@ -92,12 +92,12 @@ var Player = function() {
 	this.score = 0;
 	this.lives = 3;
 	this.sprite = 'images/char-boy.png'; 	//Add default sprite if no sprite is chosen
-}
+};
 
 // Draw the player on the screen
 Player.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 // Move player based on keyboard input
 Player.prototype.handleInput = function(key) {
@@ -131,13 +131,13 @@ Player.prototype.handleInput = function(key) {
 			}
 			break;
 	}
-}
+};
 
 // Send player back to starting position (used for reset after collision or continue game after "safe")
 Player.prototype.reset = function() {
 	this.x = 200;
 	this.y = 403;
-}
+};
 
 // Update player score
 Player.prototype.addScore = function(scoreType) {
@@ -149,7 +149,51 @@ Player.prototype.addScore = function(scoreType) {
 	// Add 1000 points for reaching the water
 		this.score += 1000;
 	}
-}
+};
+
+// Check to see if player has collided with enemy (boo!) or gem (yay!)
+Player.prototype.checkCollisions = function() {
+	
+	// Check for collisions with bugs
+	for( var i = 0; i < allEnemies.length; i++ ) {
+		// If player's position is within area of enemy position a collision has occurred
+		if (  Math.abs( allEnemies[ i ].x  -  this.x) < 50 && Math.abs( allEnemies[ i ].y  - this.y) < 50  ) {
+			// Send the player back to the start block
+			this.reset();
+			// Reduce number of player lives
+			this.lives = this.lives - 1;
+			// If player has no more lives, game is over
+			if ( this.lives < 1 ) {
+				gameState = "gameOver";
+			}
+		}
+	}
+	
+	// Check for collection of gems
+	for( i = 0; i < allGems.length; i++ ) {
+		// If player is on the same square as a gem, player collects the gem
+		if (  Math.abs( allGems[ i ].x  -  this.x) < 50 && Math.abs( allGems[ i ].y  - this.y) < 50  ) {
+			// Remove collected gem and put a new gem on the field
+			allGems[ i ].reset();
+			// Add gem to player score
+			this.addScore("gem");
+		}
+	}
+};
+
+// Check to see if player has reached water
+Player.prototype.checkSafe = function() {
+	if ( this.y === -12 && gameState === "game" ) {
+		gameState = "safe";
+		this.addScore("safe");
+	}
+};
+
+// Update the player's status
+Player.prototype.update = function() {
+	this.checkCollisions();
+	this.checkSafe();
+};
 
 /* Gem Class
  * Lovely treasures to collect!
@@ -163,53 +207,53 @@ var Gem = function(){
 	this.y = ( Math.floor(Math.random() * 3 )* 83  ) + 60;  // 
 	// Get random horizontal position (line up on tiles within field)
 	this.x =   Math.floor(Math.random() * 5 ) * canvas.width / 5; 
-}
+};
 
 // Options for gem colors
 var gemOptions = [
 	'images/gem-blue-small.png',
 	'images/gem-green-small.png',
 	'images/gem-orange-small.png'
-]
+];
 
 // Regenerate new gem when gem is collected
 Gem.prototype.reset = function() {
 	this.sprite = gemOptions[Math.floor(Math.random() * gemOptions.length)];
 	this.y = ( Math.floor(Math.random() * 3 )* 83  ) + 60;  
 	this.x = Math.floor(Math.random() * 5 ) * canvas.width / 5;
-}
+};
 
 // Draw the gem the screen
 Gem.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
-/* Options Class
+/* GamePlayOption Class
  * Choices when player reaches water ("safe" state)
  */
  
- // Create Option class
-var Option = function(){
+ // Create GamePlayOption class
+var GamePlayOption = function(){
 	// Set vertical placement of options
 	this.y = 525;
-}
+};
 
 // Set list of options at "safe" state
 var gameOptions = [
 	'Continue',
 	'Start Over',
 	'Quit'
-]
+];
 
-// Render options on the canvas
-Option.prototype.render = function() {
+// Render play options on the canvas
+GamePlayOption.prototype.render = function() {
 	ctx.textAlign = "center";
 	ctx.font = "bold 18px Georgia";
 	ctx.fillText(this.title, this.x, this.y );
 	ctx.strokeStyle = "#000";
 	ctx.lineWidth = 0.5;
 	ctx.strokeText(this.title, this.x, this.y );
-}
+};
 
 /* Game Functions
  * The stuff that makes the game work
@@ -222,7 +266,7 @@ var instantiateAll = function() {
 	gameReset = "null";
 
 	// Instantiate bug for title screen animation
-	titleBug = new Enemy()
+	titleBug = new Enemy();
 	titleBug.x = 0;
 	titleBug.y = canvas.height - 200;
 	titleBug.speed = 400;
@@ -237,7 +281,7 @@ var instantiateAll = function() {
 
 	//instantiate game options
 	for ( i = 0; i < numGems; i++) {
-		allOptions[ i ] = new Option();
+		allOptions[ i ] = new GamePlayOption();
 		allOptions[ i ].title = gameOptions[ i ];
 		allOptions[ i ].x = ( i + 1) * canvas.width / 5 + 0.5 * canvas.width/5;
 	}
@@ -260,45 +304,10 @@ var instantiateAll = function() {
 
 	// Add event listener to choose player
 	document.addEventListener("click", choosePlayer);
-}
+};
  
-// Check to see if player has reached water
-var checkSafe = function() {
-	if ( player.y === -12 && gameState === "game" ) {
-		gameState = "safe";
-		player.addScore("safe");
-	}
-}
 
-// Check to see if player has collided with enemy (boo!) or gem (yay!)
-var checkCollisions = function() {
-	
-	// Check for collisions with bugs
-	for( var i = 0; i < allEnemies.length; i++ ) {
-		// If player's position is within area of enemy position a collision has occurred
-		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
-			// Send the player back to the start block
-			player.reset();
-			// Reduce number of player lives
-			player.lives = player.lives - 1;
-			// If player has no more lives, game is over
-			if ( player.lives < 1 ) {
-				gameState = "gameOver";
-			}
-		}
-	}
-	
-	// Check for collection of gems
-	for( i = 0; i < allGems.length; i++ ) {
-		// If player is on the same square as a gem, player collects the gem
-		if (  Math.abs( allGems[ i ].x  -  player.x) < 50 && Math.abs( allGems[ i ].y  - player.y) < 50  ) {
-			// Remove collected gem and put a new gem on the field
-			allGems[ i ].reset();
-			// Add gem to player score
-			player.addScore("gem");
-		}
-	}
-}
+
 
 /* Event Listener Functions
  * Collects input from keyboard and mouse
@@ -314,7 +323,7 @@ var chooseMove = function() {
 		};
 	// Send results to player input function	
 	player.handleInput(allowedKeys[event.keyCode]);
-}
+};
 
 // Choose player using mouse
 var choosePlayer = function() {
@@ -345,7 +354,7 @@ var choosePlayer = function() {
 		}
 	}
 
-}
+};
 
 // Choose option at "safe" screen
 var chooseOption = function() {
@@ -371,7 +380,7 @@ var chooseOption = function() {
 			}
 		}
 	}
-}
+};
 
 /* Canvas Background and Text Functions
  * provide background images and text information on canvas
@@ -398,7 +407,7 @@ var drawField = function() {
 			ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
 		}
 	}
-}
+};
 
 // Add text, score and image for Game Over canvas 
 var drawGameOver = function() {
@@ -412,7 +421,7 @@ var drawGameOver = function() {
 	ctx.textAlign = "left";
 	ctx.font = "bold 36px Georgia";
 	ctx.fillText( "Final Score: ", 0, canvas.height * 0.66 );
-	ctx.fillText( player.score, canvas.width * 0.5, canvas.height * 0.66 )
+	ctx.fillText( player.score, canvas.width * 0.5, canvas.height * 0.66 );
 	//Chosen player image
 	ctx.save();
 	ctx.scale(1.75,1.75);
@@ -421,7 +430,7 @@ var drawGameOver = function() {
 	//Thank you text
 	ctx.font = "italic 24px Arial";
 	ctx.fillText("Thank you for playing!", 0, canvas.height * 0.72 );
-}
+};
 
 // Draw field with one row of grass for Title and Game Over canvases
 var drawGrass = function() {
@@ -435,7 +444,7 @@ var drawGrass = function() {
 	for ( var col = 0; col < numCols; col++) {
 		ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
 	}
-}
+};
 
 // Add game play instructions at top of canvas
 var drawInstructions = function() {
@@ -443,7 +452,7 @@ var drawInstructions = function() {
 	ctx.font = "bold italic 24px Arial";
 	ctx.fillStyle = "#963009";
 	ctx.fillText( "Use arrow keys to move → ↓ ← ↑ ", canvas.width  / 2, 40);
-}
+};
 
 // Add visual tracker for remaining lives
 var drawLives = function() {
@@ -459,7 +468,7 @@ var drawLives = function() {
 	}
 	// Restore canvas size
 	ctx.restore();
-}
+};
 
 // Add messages on "safe" canvas (when player has reached the water)
 var drawSafeMsg = function() {
@@ -475,7 +484,7 @@ var drawSafeMsg = function() {
 	ctx.strokeStyle = "#000";
 	ctx.lineWidth = 0.5;
 	ctx.strokeText("Click to choose", canvas.width/2, 500 );
-}
+};
 
 // Add player's current score at bottom of canvas
 var drawScore = function() {
@@ -484,10 +493,10 @@ var drawScore = function() {
 	ctx.fillStyle = "#963009";
 	ctx.fillText( "Score: ", 0, canvas.height );
 	ctx.fillText( player.score, canvas.width / 5, canvas.height );
-}
+};
 
 // Add game title on title canvas
-function drawTitle() {
+var drawTitle = function() {
 	ctx.font = "48px Georgia";
 	ctx.textAlign = "left";
 	ctx.fillStyle = "#963009";
@@ -495,4 +504,4 @@ function drawTitle() {
 	ctx.textAlign = "center";
 	ctx.font = "bold 200px Georgia";
 	ctx.fillText("Bugs", canvas.width/2, 350 );
-}
+};

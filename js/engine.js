@@ -52,8 +52,6 @@ var Engine = (function(global) {
 			case "game":
 				document.addEventListener('keyup', chooseMove);
 				updateEntities(dt);
-				checkCollisions();
-				checkSafe();
 				break;
 
 			case "safe":
@@ -73,6 +71,7 @@ var Engine = (function(global) {
 				allEnemies.forEach(function(enemy) {
 					enemy.update(dt);
 				});
+				player.update();
 				break;
 		}
 	}
@@ -89,14 +88,14 @@ var Engine = (function(global) {
 				drawField();
 				drawScore();
 				drawLives();
-				drawInstructions()
+				drawInstructions();
 				break;
 
 			case "safe":
 				drawField();
 				drawScore();
 				drawLives();
-				drawSafeMsg()
+				drawSafeMsg();
 				break;
 
 			case "gameOver":
@@ -152,7 +151,7 @@ var Engine = (function(global) {
 			case "Continue":
 				document.removeEventListener("click", chooseOption);
 				gameState = "game";
-				player.reset()
+				player.reset();
 				gameReset = null;
 				break;
 
