@@ -1,3 +1,4 @@
+"use strict";
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and
@@ -6,49 +7,49 @@
 
 var Engine = (function(global) {
 	//Declare and define needed variables
-    var doc = global.document,
+	var doc = global.document,
 		win = global.window,
-        canvas = doc.createElement('canvas'),
-        ctx = canvas.getContext('2d'),
-        lastTime;
+		canvas = doc.createElement('canvas'),
+		ctx = canvas.getContext('2d'),
+		lastTime;
 
-    canvas.width = 505;
-    canvas.height = 606;
-    doc.body.appendChild(canvas);
+	canvas.width = 505;
+	canvas.height = 606;
+	doc.body.appendChild(canvas);
 
 	// Game loop function: animates action on canvas
-    function main() {
+	function main() {
 		// Create time delta to provide a constant to smooth animation in different browsers
-        var now = Date.now(),
-            dt = (now - lastTime) / 1000.0;
+		var now = Date.now(),
+			dt = (now - lastTime) / 1000.0;
 
 		// Update events in game by calling functions using time delta parameter to keep animation smooth
-        update(dt);
-		
+		update(dt);
+
 		// Render changes on screen
-        render();
+		render();
 
 		// Update time variable to current time
-        lastTime = now;
+		lastTime = now;
 
 		 // Re-start loop (main function) when browser is ready for next frame
-        win.requestAnimationFrame(main);
-    };
+		win.requestAnimationFrame(main);
+	}
 
 	// Initialize game at start or when reset is called
-    function init() {
-        lastTime = Date.now();
+	function init() {
+		lastTime = Date.now();
 		instantiateAll();
-        main();
-    }
-    // Call functions needed for each game state    
-    function update(dt) {
+		main();
+	}
+	// Call functions needed for each game state    
+	function update(dt) {
 		switch (gameState) {
-            case "title":
+			case "title":
 				updateEntities(dt);
-                break;
+				break;
 
-            case "game":
+			case "game":
 				document.addEventListener('keyup', chooseMove);
 				updateEntities(dt);
 				checkCollisions();
@@ -59,32 +60,32 @@ var Engine = (function(global) {
 				reset();
 				break;
 		}
-    }
-	
-    // Update entities needed in each game state 
-    function updateEntities(dt) {
-        switch (gameState) {
-            case "title":
-				titleBug.updateTitle(dt);
-                break;
+	}
 
-            case "game":
+	// Update entities needed in each game state 
+	function updateEntities(dt) {
+		switch (gameState) {
+			case "title":
+				titleBug.updateTitle(dt);
+				break;
+
+			case "game":
 				allEnemies.forEach(function(enemy) {
 					enemy.update(dt);
 				});
 				break;
 		}
-    }
+	}
 
-    // Render background, text and entities needed for each game state 
-    function render() {
+	// Render background, text and entities needed for each game state 
+	function render() {
 		switch (gameState) {
-            case "title":
+			case "title":
 				drawGrass();
-				drawTitle()
-                break;
+				drawTitle();
+				break;
 
-            case "game":
+			case "game":
 				drawField();
 				drawScore();
 				drawLives();
@@ -101,19 +102,19 @@ var Engine = (function(global) {
 			case "gameOver":
 				drawGrass();
 				drawGameOver();
-                break;
+				break;
 
 		}
 		// Call for changes in entities
 		renderEntities();
-    }
+	}
 
-    // Render entities needed for each game state 
-    function renderEntities() {
+	// Render entities needed for each game state 
+	function renderEntities() {
 
 		switch (gameState) {
-            case "title":
-            	titleBug.renderTitle();
+			case "title":
+				titleBug.renderTitle();
 				break;
 
 			case "game":
@@ -140,15 +141,15 @@ var Engine = (function(global) {
 				break;
 
 		}
-    }
+	}
 
-    // Handle game reset options in "safe" state 
-    function reset() {
+	// Handle game reset options in "safe" state 
+	function reset() {
 		// Listen for click on game state options
 		document.addEventListener("click", chooseOption);
 
 		switch (gameReset) {
-            case "Continue":
+			case "Continue":
 				document.removeEventListener("click", chooseOption);
 				gameState = "game";
 				player.reset()
@@ -168,15 +169,15 @@ var Engine = (function(global) {
 				init();
 				break;
 		}
-    }
+	}
 
-    // Load images needed for game 
-    Resources.load([  
-        'images/stone-block.png',
-        'images/water-block.png',
-        'images/grass-block.png',  
-        'images/enemy-bug.png',
-        'images/char-boy.png',
+	// Load images needed for game 
+	Resources.load([  
+		'images/stone-block.png',
+		'images/water-block.png',
+		'images/grass-block.png',  
+		'images/enemy-bug.png',
+		'images/char-boy.png',
 		'images/char-cat-girl.png',
 		'images/char-horn-girl.png',
 		'images/char-princess-girl.png',
@@ -184,11 +185,11 @@ var Engine = (function(global) {
 		'images/gem-blue-small.png',
 		'images/gem-green-small.png',
 		'images/gem-orange-small.png'
-    ]);
-    Resources.onReady(init);
+	]);
+	Resources.onReady(init);
 
 	// Make ctx and canvas available outside Engine function
-    global.ctx = ctx;
+	global.ctx = ctx;
 	global.canvas = canvas;
 
 })(this);

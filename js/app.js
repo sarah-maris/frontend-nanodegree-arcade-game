@@ -1,3 +1,4 @@
+"use strict";
 /* Global variables
  * establish the variables needed for functions in app.js 
  */
@@ -32,7 +33,7 @@ var Enemy = function() {
 /* Title bug functions
  * Creates animation for title screen 
  */
-	
+
 // Update the title bug's position
 Enemy.prototype.updateTitle = function(dt) {
 	//straight path for first third
@@ -40,8 +41,8 @@ Enemy.prototype.updateTitle = function(dt) {
 		this.x += this.speed * dt;
 	} else {
 	//curved path to spot above title
+		var arcR = canvas.height * 0.67;
 		this.x += this.speed * dt;
-		arcR = canvas.height * 0.67;
 		this.y =  Math.sqrt( arcR * arcR -  this.x * this.x) + 38;
 	}
 }
@@ -69,7 +70,7 @@ Enemy.prototype.renderTitle = function() {
 /* Game bugs
  * The enemies rendered for game play 
  */
-	
+
 // Update the game bug's position
 Enemy.prototype.update = function(dt) {
 	this.x = (this.x % canvas.width ) + this.speed * dt;
@@ -77,7 +78,7 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the game bug on the screen
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
 /* Player Class
@@ -227,7 +228,7 @@ var instantiateAll = function() {
 	titleBug.speed = 400;
 
 	// instantiate enemies
-	for (i = 0; i < numEnemies; i++ ) {
+	for ( var i = 0; i < numEnemies; i++ ) {
 		allEnemies[ i ] = new Enemy();
 		allEnemies[ i ].y = i * 83 + 60;  //enemies line up on tiles
 		allEnemies[ i ].x =  Math.random() * (canvas.width - 64); //enemies start at random positions on the x-axis
@@ -238,7 +239,7 @@ var instantiateAll = function() {
 	for ( i = 0; i < numGems; i++) {
 		allOptions[ i ] = new Option();
 		allOptions[ i ].title = gameOptions[ i ];
-		allOptions[ i ].x = ( i + 1) * canvas.width / 5 + .5 * canvas.width/5;
+		allOptions[ i ].x = ( i + 1) * canvas.width / 5 + 0.5 * canvas.width/5;
 	}
 
 	//instantiate gems
@@ -247,7 +248,7 @@ var instantiateAll = function() {
 	}
 
 	// Instantiate player options
-	for (i = 0; i < playerOptions.length; i++ ) {
+	for ( i = 0; i < playerOptions.length; i++ ) {
 		allPlayers[ i ] = new Player();
 		allPlayers[ i ].y = 403;  //player options line up on bottom tiles
 		allPlayers[ i ].x = i * canvas.width / 5;
@@ -263,7 +264,7 @@ var instantiateAll = function() {
  
 // Check to see if player has reached water
 var checkSafe = function() {
-	if (player.y === -12 && gameState === "game") {
+	if ( player.y === -12 && gameState === "game" ) {
 		gameState = "safe";
 		player.addScore("safe");
 	}
@@ -273,7 +274,7 @@ var checkSafe = function() {
 var checkCollisions = function() {
 	
 	// Check for collisions with bugs
-	for(i = 0; i < allEnemies.length; i++ ) {
+	for( var i = 0; i < allEnemies.length; i++ ) {
 		// If player's position is within area of enemy position a collision has occurred
 		if (  Math.abs( allEnemies[ i ].x  -  player.x) < 50 && Math.abs( allEnemies[ i ].y  - player.y) < 50  ) {
 			// Send the player back to the start block
@@ -284,11 +285,11 @@ var checkCollisions = function() {
 			if ( player.lives < 1 ) {
 				gameState = "gameOver";
 			}
-		};
+		}
 	}
 	
 	// Check for collection of gems
-	for(i = 0; i < allGems.length; i++ ) {
+	for( i = 0; i < allGems.length; i++ ) {
 		// If player is on the same square as a gem, player collects the gem
 		if (  Math.abs( allGems[ i ].x  -  player.x) < 50 && Math.abs( allGems[ i ].y  - player.y) < 50  ) {
 			// Remove collected gem and put a new gem on the field
@@ -328,7 +329,7 @@ var choosePlayer = function() {
 	// If mouse event is within range, check to see which character it points to
 	if ( mouseY <= canvas.height && mouseY >= spriteTop ) {
 
-		for (i = 0; i < playerOptions.length; i++ ) {
+		for ( var i = 0; i < playerOptions.length; i++ ) {
 		// Set target area for each character
 			var spriteLeft = spriteWidth * i;
 			var spriteRight = spriteWidth * ( i + 1 );
@@ -359,7 +360,7 @@ var chooseOption = function() {
 	// If mouse event is within range, check to see which option it points to
 	if ( mouseY <= canvas.height && mouseY >= optionTop ) {
 
-		for (i = 0; i < gameOptions.length; i++ ) {
+		for ( var i = 0; i < gameOptions.length; i++ ) {
 			// Set target area for each option
 			var optionLeft = optionWidth * ( i + 1 );
 			var optionRight = optionWidth * ( i + 2 );
@@ -392,8 +393,8 @@ row, col;
 // Draw field for game play
 var drawField = function() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	for (row = 0; row < numRows; row++) {
-		for (col = 0; col < numCols; col++) {
+	for ( var row = 0; row < numRows; row++) {
+		for ( var col = 0; col < numCols; col++) {
 			ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
 		}
 	}
@@ -431,7 +432,7 @@ var drawGrass = function() {
 	ctx.fill();
 	//Draw row of grass at bottom
 	var rowNum = 5;
-	for (col = 0; col < numCols; col++) {
+	for ( var col = 0; col < numCols; col++) {
 		ctx.drawImage(Resources.get(rowImages[rowNum]), col * 101, rowNum *83);
 	}
 }
@@ -453,7 +454,7 @@ var drawLives = function() {
 	ctx.save();
 	ctx.scale(0.2,0.2);
 	// Add one mini sprite for each remaining life
-	for (var i = 0; i < player.lives; i++) {
+	for ( var i = 0; i < player.lives; i++) {
 		ctx.drawImage(Resources.get(player.sprite), canvas.width * 4 + i * 100, canvas.height * 4.75 );
 	}
 	// Restore canvas size
