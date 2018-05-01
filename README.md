@@ -5,7 +5,7 @@ This game is a frogger clone designed for the Udacity Front-End Nanodegree Proje
 
 How to play:
 
-1) Open index.html in your browser
+1) Open index.html in your browser or **[play the live demo](https://sarah-maris.github.io/oh-no-bugs/)**
 
 2) Click on a player to begin the game
 
